@@ -11,6 +11,7 @@ export type AuthState = { error?: string; info?: string };
 // dans la langue du visiteur (A1.11).
 const ERROR_INVALID = "auth.error_invalid_credentials";
 const ERROR_EMAIL_TAKEN = "auth.error_email_taken";
+const ERROR_NOT_ALLOWED = "auth.error_not_allowed";
 const ERROR_GENERIC = "common.error_generic";
 const INFO_CONFIRM_EMAIL = "auth.confirm_email";
 
@@ -51,11 +52,20 @@ export async function signUpWithPassword(
   const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    return {
-      error: error.message.toLowerCase().includes("already")
-        ? ERROR_EMAIL_TAKEN
-        : ERROR_GENERIC,
-    };
+    const message = error.message.toLowerCase();
+
+    // Le trigger de liste d'accès remonte comme une erreur de base côté
+    // GoTrue : sans ce traitement, l'utilisateur verrait « Database error »
+    // et ne saurait pas que le problème est une autorisation manquante.
+    if (
+      message.includes("database error") ||
+      message.includes("autoris") ||
+      message.includes("not allowed")
+    ) {
+      return { error: ERROR_NOT_ALLOWED };
+    }
+
+    return { error: message.includes("already") ? ERROR_EMAIL_TAKEN : ERROR_GENERIC };
   }
 
   // Si la confirmation par e-mail est active, aucune session n'est ouverte

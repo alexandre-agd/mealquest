@@ -205,6 +205,61 @@ Réversible : oui.
 
 ---
 
+## [2026-07-28] Application strictement privée : liste d'accès en base
+
+Contexte : demande explicite de la MOA au démarrage du lot 4. Jusqu'ici,
+n'importe qui connaissant l'adresse du site pouvait créer un compte, puisque
+MealQuest est exposée sur Internet. Ce n'était pas un problème tant qu'aucun
+secret n'était en jeu ; ça le devient avec la clé du fournisseur d'IA.
+
+Choix : une table `allowed_signups` et un trigger `before insert` sur
+`auth.users`. Une adresse absente de la liste ne peut pas créer de compte,
+**quel que soit le chemin** : mot de passe, Google, ou appel direct à l'API
+d'authentification. Le contrôle est dans la base, pas dans l'interface, donc
+il n'y a rien à contourner. La liste se gère depuis les paramètres.
+
+Alternative écartée : désactiver l'inscription publique dans le tableau de
+bord Supabase. Efficace aussi, mais c'est un réglage invisible depuis le
+dépôt, que rien ne documente et qu'un futur repreneur ne devinerait pas. Les
+deux restent cumulables.
+
+Vérifié en transaction annulée : adresse non listée rejetée, adresse listée
+acceptée.
+
+Réversible : oui, il suffit de supprimer le trigger.
+
+---
+
+## [2026-07-28] La clé du modèle n'est déchiffrable que par le serveur
+
+Contexte : le lot 4 doit relire la clé du fournisseur d'IA pour appeler le
+modèle. La question n'est pas où la stocker — Vault s'en charge depuis le
+lot 1 — mais qui a le droit de la déchiffrer.
+
+Choix : `get_household_ai_key()` n'est accordée qu'au rôle `service_role`.
+Un compte connecté ne peut pas l'appeler, même avec une session valide. Le
+serveur Next.js utilise un client dédié (`lib/supabase/admin.ts`) avec une
+clé de service qui ne porte pas le préfixe `NEXT_PUBLIC_` et ne part donc
+jamais dans le bundle du navigateur.
+
+Conséquence : une faille de type XSS dans l'interface ne permet pas
+d'exfiltrer la clé, et un appel à `/rest/v1/rpc/get_household_ai_key` avec la
+clé publishable échoue.
+
+Alternative écartée : accorder la fonction au rôle `authenticated`. Plus
+simple, et défendable puisqu'il s'agit de la clé de l'utilisateur lui-même,
+mais elle devient alors récupérable depuis le navigateur — exactement ce que
+la MOA a demandé d'éviter.
+
+Contrepartie assumée : une variable d'environnement de plus à renseigner
+côté hébergeur, et un mode dégradé à prévoir si elle manque.
+
+Vérifié : appel refusé sous le rôle `authenticated`.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-27] Le niveau 0 de l'inventaire n'existe pas en base
 
 Contexte : RG-31 définit quatre niveaux de stock, RG-32 précise que tout

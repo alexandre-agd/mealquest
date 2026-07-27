@@ -36,7 +36,8 @@
     "password_hint": "8文字以上",
     "confirm_email": "確認メールをお送りしました。メールをご確認ください。",
     "error_invalid_credentials": "メールアドレスまたはパスワードが正しくありません。",
-    "error_email_taken": "このメールアドレスはすでに登録されています。"
+    "error_email_taken": "このメールアドレスはすでに登録されています。",
+    "error_not_allowed": "このメールアドレスではアカウントを作成できません。"
   },
   "onboarding": {
     "welcome_title": "ようこそ",
@@ -249,5 +250,18 @@
       "bunch": "束",
       "pack": "パック"
     }
+  },
+  "access": {
+    "section": "ログインできる人",
+    "help": "MealQuestは非公開のアプリです。ここに登録されたメールアドレスだけがアカウントを作成できます。パスワードでもGoogleでも同じです。",
+    "email": "許可するメールアドレス",
+    "note": "どなたですか？（任意）",
+    "add": "このアドレスを許可する",
+    "revoke": "削除",
+    "you": "あなた",
+    "has_account": "アカウント作成済み",
+    "no_account": "未作成",
+    "revoke_warning": "アドレスを削除しても、すでに作成されたアカウントは消えません。新しく作れなくなるだけです。",
+    "cannot_revoke_self": "ご自身のアドレスは削除できません。"
   }
 }

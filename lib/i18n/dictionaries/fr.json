@@ -36,7 +36,8 @@
     "password_hint": "8 caractères minimum",
     "confirm_email": "Vérifiez votre boîte mail : un lien de confirmation vous a été envoyé.",
     "error_invalid_credentials": "E-mail ou mot de passe incorrect.",
-    "error_email_taken": "Un compte existe déjà avec cette adresse."
+    "error_email_taken": "Un compte existe déjà avec cette adresse.",
+    "error_not_allowed": "Cette adresse n'est pas autorisée à créer un compte sur cette application."
   },
   "onboarding": {
     "welcome_title": "Bienvenue",
@@ -249,5 +250,18 @@
       "bunch": "botte",
       "pack": "paquet"
     }
+  },
+  "access": {
+    "section": "Qui peut se connecter",
+    "help": "MealQuest est une application privée. Seules les adresses listées ici peuvent créer un compte, que ce soit par mot de passe ou par Google.",
+    "email": "Adresse e-mail autorisée",
+    "note": "Qui est-ce ? (facultatif)",
+    "add": "Autoriser cette adresse",
+    "revoke": "Retirer",
+    "you": "vous",
+    "has_account": "compte créé",
+    "no_account": "pas encore de compte",
+    "revoke_warning": "Retirer une adresse n'efface pas le compte déjà créé, cela empêche seulement d'en recréer un.",
+    "cannot_revoke_self": "Vous ne pouvez pas retirer votre propre adresse."
   }
 }

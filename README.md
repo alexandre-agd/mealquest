@@ -123,7 +123,11 @@ L'app se déploie comme un conteneur Docker classique. Dans Dokploy :
    SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
    SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e
    APP_URL=https://mealquest.agdevelopment.co
+   SUPABASE_SERVICE_ROLE_KEY=<clé service_role du projet Supabase>
    ```
+   `SUPABASE_SERVICE_ROLE_KEY` sert uniquement à déchiffrer la clé du
+   fournisseur d'IA côté serveur. Elle ne porte volontairement pas le préfixe
+   `NEXT_PUBLIC_` : elle ne doit jamais partir dans le navigateur.
    `APP_URL` est indispensable derrière le proxy : le conteneur écoute sur
    `0.0.0.0:3000` et ne peut pas deviner le nom de domaine. Sans elle, la
    connexion Google renvoie le navigateur sur une adresse injoignable.

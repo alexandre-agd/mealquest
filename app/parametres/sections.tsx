@@ -12,6 +12,7 @@ import {
   type IngredientCategory,
   type IngredientUnit,
 } from "@/lib/inventory/ingredients";
+import { allowEmail, revokeEmail } from "./access-actions";
 import {
   addCustomIngredient,
   addMember,
@@ -429,6 +430,114 @@ function MemberCard({
         ) : null}
       </div>
     </Card>
+  );
+}
+
+export type AllowedEmail = {
+  email: string;
+  note: string | null;
+  hasAccount: boolean;
+};
+
+export function AccessSection({
+  t,
+  allowed,
+  currentEmail,
+}: {
+  t: Dictionary;
+  allowed: AllowedEmail[];
+  currentEmail: string | null;
+}) {
+  const [email, setEmail] = useState("");
+  const [note, setNote] = useState("");
+  const { pending, saved, error, run } = useSaver();
+  const [removing, startRemoving] = useTransition();
+  const [removeError, setRemoveError] = useState<string | null>(null);
+
+  return (
+    <section className="flex flex-col gap-3">
+      <SectionTitle>{t.access.section}</SectionTitle>
+      <Card className="flex flex-col gap-4">
+        <p className="text-sm text-muted">{t.access.help}</p>
+
+        <ul className="flex flex-col divide-y divide-border">
+          {allowed.map((entry) => {
+            const isSelf = entry.email === currentEmail;
+            return (
+              <li
+                key={entry.email}
+                className="flex items-center justify-between gap-3 py-2"
+              >
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm">{entry.email}</span>
+                  <span className="text-xs text-muted">
+                    {isSelf ? `${t.access.you} · ` : entry.note ? `${entry.note} · ` : ""}
+                    {entry.hasAccount ? t.access.has_account : t.access.no_account}
+                  </span>
+                </span>
+                {!isSelf ? (
+                  <Button
+                    variant="ghost"
+                    disabled={removing}
+                    onClick={() =>
+                      startRemoving(async () => {
+                        setRemoveError(null);
+                        const result = await revokeEmail(entry.email);
+                        if (result?.error) setRemoveError(result.error);
+                      })
+                    }
+                  >
+                    {t.access.revoke}
+                  </Button>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+
+        {removeError ? <ErrorText>{lookup(t, removeError)}</ErrorText> : null}
+
+        <p className="text-xs text-muted">{t.access.revoke_warning}</p>
+
+        <Field label={t.access.email}>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="off"
+            inputMode="email"
+          />
+        </Field>
+        <Field label={t.access.note}>
+          <Input value={note} onChange={(e) => setNote(e.target.value)} />
+        </Field>
+
+        <div className="flex items-center gap-3">
+          <Button
+            disabled={pending || !email.includes("@")}
+            onClick={() => {
+              const formData = new FormData();
+              formData.set("email", email.trim());
+              formData.set("note", note.trim());
+              run(async () => {
+                const result = await allowEmail(formData);
+                if (result?.ok) {
+                  setEmail("");
+                  setNote("");
+                }
+                return result;
+              });
+            }}
+          >
+            {pending ? t.common.loading : t.access.add}
+          </Button>
+          {saved && !pending ? (
+            <span className="text-sm text-accent">{t.common.saved}</span>
+          ) : null}
+          {error ? <ErrorText>{lookup(t, error)}</ErrorText> : null}
+        </div>
+      </Card>
+    </section>
   );
 }
 

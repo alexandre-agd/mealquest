@@ -7,8 +7,10 @@ import { LocaleSwitch } from "@/components/locale-switch";
 import { Button, Card, SectionTitle } from "@/components/ui";
 import { signOut } from "@/app/connexion/actions";
 import {
+  AccessSection,
   AiSection,
   CustomIngredientSection,
+  type AllowedEmail,
   EquipmentSection,
   HouseholdSection,
   MembersSection,
@@ -22,20 +24,36 @@ export default async function SettingsPage() {
   const { locale, t } = await getCurrentDictionary();
   const supabase = await createClient();
 
-  const [{ data: user }, { data: ingredientRows }, { data: dislikeRows }] =
-    await Promise.all([
-      supabase.auth.getUser(),
-      supabase
-        .from("ingredients")
-        .select("id, name_fr, name_ja, category")
-        .order("name_fr"),
-      supabase.from("member_dislikes").select("member_id, ingredient_id"),
-    ]);
+  const [
+    { data: user },
+    { data: ingredientRows },
+    { data: dislikeRows },
+    { data: allowedRows },
+  ] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase
+      .from("ingredients")
+      .select("id, name_fr, name_ja, category")
+      .order("name_fr"),
+    supabase.from("member_dislikes").select("member_id, ingredient_id"),
+    supabase.from("allowed_signups").select("email, note").order("created_at"),
+  ]);
 
   const dislikesByMember: Record<string, string[]> = {};
   for (const row of dislikeRows ?? []) {
     (dislikesByMember[row.member_id] ??= []).push(row.ingredient_id);
   }
+
+  // Une adresse autorisée n'a pas forcément déjà servi à créer un compte.
+  // La distinction est utile : elle dit si l'invitation a été utilisée.
+  // auth.users n'est pas lisible depuis l'application, on se limite donc au
+  // compte courant, seul dont on soit certain qu'il existe.
+  const currentEmail = user?.user?.email?.toLowerCase() ?? null;
+  const allowed: AllowedEmail[] = (allowedRows ?? []).map((row) => ({
+    email: row.email,
+    note: row.note,
+    hasAccount: row.email === currentEmail,
+  }));
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-7 px-6 py-8">
@@ -70,6 +88,8 @@ export default async function SettingsPage() {
       <EquipmentSection t={t} household={household} />
 
       <CustomIngredientSection t={t} />
+
+      <AccessSection t={t} allowed={allowed} currentEmail={currentEmail} />
 
       <AiSection t={t} household={household} />
 
