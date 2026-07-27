@@ -4,11 +4,11 @@ Application privée de planification hebdomadaire des repas pour un foyer de
 2 personnes. Voir `docs/01-brief-moa.md` pour le contexte complet, et
 `DECISIONS.md` pour les choix techniques.
 
-**État actuel : Lot 2 terminé.** Authentification, foyer et membres, interface
+**État actuel : Lot 3 terminé.** Authentification, foyer et membres, interface
 bilingue fr/ja par membre, allergies et dégoûts, objectif et budget de points,
-matériel de cuisine, clé API du modèle, et semainier des disponibilités avec
-calcul des besoins et des portions. Le frigo et la génération de recettes
-arrivent aux lots suivants.
+matériel de cuisine, clé API du modèle, semainier des disponibilités avec
+calcul des besoins et des portions, et inventaire du frigo. La génération de
+recettes arrive au lot suivant.
 Voir `PROGRESS.md` pour le détail des critères d'acceptation.
 
 ---
@@ -77,7 +77,7 @@ le dashboard Supabase du projet : Project Settings → API.
 
 **La clé de votre fournisseur d'IA (DeepSeek ou autre) ne se configure pas
 ici.** Elle se saisit depuis l'écran Paramètres de l'application une fois
-connecté (C4) — cet écran arrive au lot 1/4.
+connecté (C4), et n'est jamais stockée dans ce dépôt.
 
 ---
 
@@ -87,8 +87,8 @@ connecté (C4) — cet écran arrive au lot 1/4.
 npm run dev
 ```
 
-Ouvre [http://localhost:3000](http://localhost:3000). La page doit afficher
-« Connexion à Supabase établie. » si la configuration est correcte.
+Ouvre [http://localhost:3000](http://localhost:3000). Sans session ouverte,
+l'application redirige vers l'écran de connexion.
 
 ---
 
@@ -161,10 +161,13 @@ passage par l'App Store.
 
 ---
 
-## Ce qui reste à faire avant le lot 1
+## Actions qui restent du ressort de la MOA
 
-- Configurer l'application dans Dokploy (voir section ci-dessus) et brancher
-  le nom de domaine — action MOA, pas automatisable depuis ce dépôt.
+- **Relire les 170 noms japonais** de `data/ingredients-seed.csv` avec une
+  locutrice native. C'est le seul livrable qu'aucun outil ne peut vérifier,
+  et il conditionne l'exactitude de la liste de courses (lot 5).
+- **Chronométrer** la saisie du semainier (A2.13, 60 s) et de l'inventaire
+  (A3.9, 90 s) en conditions réelles.
 
 ---
 
@@ -179,6 +182,7 @@ lib/
   supabase/              Clients Supabase (navigateur et serveur)
   household/             Règles du foyer : budget de points, matériel
   week/                  Dates Asia/Tokyo et moteur de besoins
+  inventory/             Référentiel d'ingrédients et inventaire du frigo
 components/              Primitives d'interface partagées
 middleware.ts            Session Supabase et protection des routes
 supabase/migrations/     Migrations SQL (schéma, RLS, référentiel)

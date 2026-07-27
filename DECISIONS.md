@@ -205,6 +205,43 @@ Réversible : oui.
 
 ---
 
+## [2026-07-27] Le niveau 0 de l'inventaire n'existe pas en base
+
+Contexte : RG-31 définit quatre niveaux de stock, RG-32 précise que tout
+périssable non touché vaut 0. Écrire une ligne par ingrédient du référentiel
+signifierait 107 lignes par semaine, dont l'immense majorité à 0.
+
+Choix : seuls les niveaux 1 à 3 sont stockés, l'absence de ligne vaut 0. La
+contrainte SQL le rend explicite (`level between 1 and 3`).
+
+Conséquence sur l'enregistrement : l'écran envoie l'état complet du frigo
+plutôt qu'un delta. Un delta devrait distinguer « passe à 0 » de « inchangé »,
+alors que l'état complet rend l'opération idempotente. Un frigo réel compte
+quelques dizaines d'articles : la charge est négligeable.
+
+Réversible : oui.
+
+---
+
+## [2026-07-27] Fréquence d'usage : une vue, pas un compteur
+
+Contexte : RG-33 demande de trier l'inventaire par fréquence d'utilisation
+dans le foyer, et `docs/04` mentionne un « compteur interne ».
+
+Choix : une vue `ingredient_usage` qui compte les semaines où l'ingrédient a
+été déclaré présent, plutôt qu'une colonne dénormalisée. La source de vérité
+reste les inventaires passés : il n'y a aucun compteur à maintenir en
+cohérence, et donc aucun risque de dérive.
+
+Détail d'interface : l'ordre de la liste est figé au montage de l'écran.
+Recalculer le tri à chaque tap ferait sauter les lignes sous le doigt, et
+l'utilisateur toucherait la mauvaise.
+
+Réversible : oui, un compteur matérialisé peut remplacer la vue si le volume
+l'exige un jour.
+
+---
+
 ## [2026-07-27] Dates du semainier stockées en `date`, pas en instant
 
 Contexte : C8 impose Asia/Tokyo partout, C9 la semaine du lundi au dimanche.

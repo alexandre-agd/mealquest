@@ -56,6 +56,14 @@ export default async function Home() {
         <p className="mt-1 text-sm text-muted">{t.home.week_hint}</p>
       </Link>
 
+      <Link
+        href="/frigo"
+        className="rounded-2xl border border-border bg-surface p-5 text-left transition-colors hover:border-accent"
+      >
+        <p className="font-medium">{t.inventory.title}</p>
+        <p className="mt-1 text-sm text-muted">{t.home.fridge_hint}</p>
+      </Link>
+
       <p className="text-sm text-muted">{t.home.lot_notice}</p>
     </main>
   );

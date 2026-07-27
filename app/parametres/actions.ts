@@ -7,6 +7,11 @@ import { locales } from "@/lib/i18n";
 import { ALLERGEN_FAMILIES, EQUIPMENT_KEYS } from "@/lib/household/equipment";
 import { HOUSEHOLD_GOALS } from "@/lib/household/budget";
 import { getCurrentHousehold } from "@/lib/household/queries";
+import {
+  INGREDIENT_CATEGORIES,
+  INGREDIENT_UNITS,
+  slugifyIngredientKey,
+} from "@/lib/inventory/ingredients";
 
 export type ActionResult = { ok?: true; error?: string };
 
@@ -165,6 +170,67 @@ export async function deleteMember(id: string): Promise<ActionResult> {
 
   const { error } = await supabase.from("members").delete().eq("id", id);
   if (error) return { error: GENERIC };
+
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/**
+ * Ajoute un ingrédient au référentiel du foyer (A3.10).
+ *
+ * Les trois noms sont obligatoires : le japonais sert aux courses en magasin,
+ * l'anglais à la génération de recettes. Un ingrédient sans nom japonais
+ * rendrait la liste de courses inutilisable pour l'utilisatrice japonaise.
+ *
+ * L'ajout est un acte humain : l'IA ne crée jamais d'entrée du référentiel
+ * (docs/08).
+ */
+export async function addCustomIngredient(
+  formData: FormData,
+): Promise<ActionResult> {
+  const parsed = z
+    .object({
+      name_fr: z.string().trim().min(1).max(60),
+      name_ja: z.string().trim().min(1).max(60),
+      name_en: z.string().trim().min(1).max(60),
+      category: z.enum(INGREDIENT_CATEGORIES as unknown as [string, ...string[]]),
+      default_unit: z.enum(INGREDIENT_UNITS as unknown as [string, ...string[]]),
+      perishable: z.boolean(),
+    })
+    .safeParse({
+      name_fr: formData.get("name_fr"),
+      name_ja: formData.get("name_ja"),
+      name_en: formData.get("name_en"),
+      category: formData.get("category"),
+      default_unit: formData.get("default_unit"),
+      perishable: formData.get("perishable") === "on",
+    });
+
+  if (!parsed.success) return { error: GENERIC };
+
+  const household = await getCurrentHousehold();
+  if (!household) return { error: GENERIC };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("ingredients").insert({
+    household_id: household.id,
+    key: slugifyIngredientKey(parsed.data.name_en),
+    name_fr: parsed.data.name_fr,
+    name_ja: parsed.data.name_ja,
+    name_en: parsed.data.name_en,
+    category: parsed.data.category,
+    default_unit: parsed.data.default_unit,
+    perishable: parsed.data.perishable,
+    // Un ingrédient personnalisé n'est jamais un staple : il doit rester
+    // visible dans l'inventaire, sinon l'utilisateur ne le reverra jamais.
+    staple: false,
+  });
+
+  if (error) {
+    if (error.code === "23505") return { error: "custom_ingredient.duplicate" };
+    console.error("[parametres] ingrédient personnalisé :", error.message);
+    return { error: GENERIC };
+  }
 
   revalidatePath("/", "layout");
   return { ok: true };

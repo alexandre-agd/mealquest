@@ -8,6 +8,7 @@ import { Button, Card, SectionTitle } from "@/components/ui";
 import { signOut } from "@/app/connexion/actions";
 import {
   AiSection,
+  CustomIngredientSection,
   EquipmentSection,
   HouseholdSection,
   MembersSection,
@@ -67,6 +68,8 @@ export default async function SettingsPage() {
       />
 
       <EquipmentSection t={t} household={household} />
+
+      <CustomIngredientSection t={t} />
 
       <AiSection t={t} household={household} />
 

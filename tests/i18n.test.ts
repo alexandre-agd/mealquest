@@ -39,6 +39,10 @@ describe("dictionnaires fr/ja", () => {
       "member.language_fr",
       "member.language_ja",
       "week.status_short.libre", // « — » : case vide dans la grille
+      // Symboles d'unités internationaux : « g » et « ml » s'écrivent de la
+      // même façon sur une étiquette française et japonaise.
+      "custom_ingredient.units.g",
+      "custom_ingredient.units.ml",
     ]);
 
     const identical = flattenKeys(dictionaries.fr).filter(

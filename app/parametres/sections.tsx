@@ -7,6 +7,13 @@ import { ALLERGEN_FAMILIES, EQUIPMENT_KEYS } from "@/lib/household/equipment";
 import { HOUSEHOLD_GOALS, computePointsBudget, type HouseholdGoal } from "@/lib/household/budget";
 import type { Household } from "@/lib/household/queries";
 import {
+  INGREDIENT_CATEGORIES,
+  INGREDIENT_UNITS,
+  type IngredientCategory,
+  type IngredientUnit,
+} from "@/lib/inventory/ingredients";
+import {
+  addCustomIngredient,
   addMember,
   clearAiKey,
   deleteMember,
@@ -422,6 +429,102 @@ function MemberCard({
         ) : null}
       </div>
     </Card>
+  );
+}
+
+export function CustomIngredientSection({ t }: { t: Dictionary }) {
+  const [nameFr, setNameFr] = useState("");
+  const [nameJa, setNameJa] = useState("");
+  const [nameEn, setNameEn] = useState("");
+  const [category, setCategory] = useState<IngredientCategory>("vegetables");
+  const [unit, setUnit] = useState<IngredientUnit>("g");
+  const [perishable, setPerishable] = useState(true);
+  const { pending, saved, error, run } = useSaver();
+
+  const complete =
+    nameFr.trim() && nameJa.trim() && nameEn.trim() ? true : false;
+
+  return (
+    <section className="flex flex-col gap-3">
+      <SectionTitle>{t.custom_ingredient.section}</SectionTitle>
+      <Card className="flex flex-col gap-4">
+        <p className="text-sm text-muted">{t.custom_ingredient.help}</p>
+
+        <Field label={t.custom_ingredient.name_fr}>
+          <Input value={nameFr} onChange={(e) => setNameFr(e.target.value)} />
+        </Field>
+        <Field label={t.custom_ingredient.name_ja}>
+          <Input value={nameJa} onChange={(e) => setNameJa(e.target.value)} lang="ja" />
+        </Field>
+        <Field label={t.custom_ingredient.name_en}>
+          <Input value={nameEn} onChange={(e) => setNameEn(e.target.value)} lang="en" />
+        </Field>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-medium">{t.custom_ingredient.category}</span>
+          <div className="flex flex-wrap gap-2">
+            {INGREDIENT_CATEGORIES.map((option) => (
+              <Chip
+                key={option}
+                active={category === option}
+                onClick={() => setCategory(option)}
+              >
+                {t.categories[option]}
+              </Chip>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-medium">{t.custom_ingredient.unit}</span>
+          <div className="flex flex-wrap gap-2">
+            {INGREDIENT_UNITS.map((option) => (
+              <Chip key={option} active={unit === option} onClick={() => setUnit(option)}>
+                {t.custom_ingredient.units[option]}
+              </Chip>
+            ))}
+          </div>
+        </div>
+
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={perishable}
+            onChange={(e) => setPerishable(e.target.checked)}
+            className="h-5 w-5 accent-[var(--accent)]"
+          />
+          {t.custom_ingredient.perishable}
+        </label>
+
+        <SaveRow
+          t={t}
+          pending={pending}
+          saved={saved}
+          error={error}
+          onSave={() => {
+            const formData = new FormData();
+            formData.set("name_fr", nameFr.trim());
+            formData.set("name_ja", nameJa.trim());
+            formData.set("name_en", nameEn.trim());
+            formData.set("category", category);
+            formData.set("default_unit", unit);
+            if (perishable) formData.set("perishable", "on");
+            run(async () => {
+              const result = await addCustomIngredient(formData);
+              if (result?.ok) {
+                setNameFr("");
+                setNameJa("");
+                setNameEn("");
+              }
+              return result;
+            });
+          }}
+        />
+        {!complete ? (
+          <p className="text-xs text-muted">{t.common.required_field}</p>
+        ) : null}
+      </Card>
+    </section>
   );
 }
 

@@ -169,12 +169,64 @@ Déployé sur https://mealquest.agdevelopment.co
 - **Copie de semaine et membres supprimés** : copier une semaine dont un
   membre a été supprimé entre-temps ignore simplement ses lignes.
 
-### Prochaine étape
-Lot 3 — Référentiel d'ingrédients et inventaire du frigo
-(`docs/07-backlog-batchs.md`). Le référentiel est déjà importé et contrôlé
-depuis le lot 1 ; le lot 3 portera donc sur l'écran d'inventaire, le tri par
-fréquence d'usage, la recherche et l'ajout d'ingrédient personnalisé.
+---
 
-**Avant de démarrer le lot 3** : la relecture des 170 noms japonais du
-référentiel avec une locutrice native reste le prérequis annoncé par
-`README-PACK.md`.
+## Lot 3 — Référentiel et inventaire du frigo — TERMINÉ (2026-07-27)
+
+### Ce qui marche
+- **Plan de semaine** créé automatiquement à la première saisie, un par
+  semaine et par foyer. L'inventaire y est rattaché : c'est une photo prise
+  à un moment donné, pas un stock vivant (RG-29).
+- **Inventaire des périssables uniquement** : 107 lignes, aucun `staple`.
+- **Sélecteur à quatre niveaux** visible directement sur chaque ligne, un
+  seul tap, sans menu à ouvrir.
+- **Tri** : ce qui est déjà dans le frigo remonte en tête, puis les
+  ingrédients les plus souvent déclarés par le foyer, puis le rayon.
+- **Recherche** en français et en japonais sur les 107 périssables.
+- **Préchargement** de l'inventaire de la semaine précédente, avec un message
+  qui l'annonce.
+- **Frigo vide** en un geste.
+- **Ingrédient personnalisé** ajouté depuis les paramètres, disponible
+  immédiatement dans le frigo.
+- 75 tests au total.
+
+### Critères d'acceptation (docs/06)
+
+| # | Critère | Résultat |
+|---|---|---|
+| A3.1 | Référentiel chargé, noms FR, JA et EN | **OK** — 170 entrées, contrôles de `docs/08` passés sans anomalie |
+| A3.2 | Aucun `staple` sur l'écran d'inventaire | **OK** — 107 lignes présentées, 63 staples exclus |
+| A3.3 | Sélecteur 0 à 3 réglable en un tap, sans menu | **OK** |
+| A3.4 | Ingrédient non touché = 0 | **OK** — l'absence de ligne vaut 0 |
+| A3.5 | Inventaire de la semaine précédente préchargé | **OK** |
+| A3.6 | Les plus utilisés en haut de liste | **OK** |
+| A3.7 | Chercher et ajouter un périssable absent de la liste courte | **OK** — recherche FR et JA |
+| A3.8 | Remise à zéro du frigo en un geste | **OK** |
+| A3.9 | Saisie de l'inventaire en moins de 90 secondes | **À VÉRIFIER PAR LA MOA** — critère chronométré |
+| A3.10 | Ingrédient personnalisé disponible partout | **OK** |
+
+### Ce qui demande une action de la MOA
+- **A3.9**, chronométré, à valider en conditions réelles. La liste complète
+  fait 107 lignes : à partir de la deuxième semaine le préchargement réduit
+  le travail à corriger ce qui a changé, mais la première saisie sera plus
+  longue. Si elle dépasse le budget, la piste est de raccourcir la liste
+  initiale plutôt que d'accélérer les gestes.
+- **Relecture des 170 noms japonais** avec une locutrice native
+  (`README-PACK.md`). Toujours en attente, et c'est le prérequis qui
+  conditionne l'exactitude de la liste de courses au lot 5.
+
+### Limites connues, assumées à ce stade
+- **Liste longue à la première utilisation** : les 107 périssables sont
+  présentés d'emblée, faute d'historique. Le tri par fréquence ne devient
+  utile qu'à partir de la deuxième semaine.
+- **Recherche sans tolérance** aux fautes de frappe ni aux accents partiels.
+- **Suppression d'un ingrédient personnalisé** non exposée : on peut en
+  ajouter, pas en retirer depuis l'interface.
+- **`week_plans.points_budget` reste vide** : la colonne existe pour le lot 4,
+  rien ne l'alimente encore.
+
+### Prochaine étape
+Lot 4 — Moteur de génération et planning (`docs/07-backlog-batchs.md`). C'est
+le lot le plus long et le plus incertain du projet, celui qui concentre le
+risque. Il pourra être scindé en 4a (génération et validation, testable en
+ligne de commande) et 4b (interface de booster et planning).

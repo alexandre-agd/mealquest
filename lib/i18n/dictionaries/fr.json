@@ -196,12 +196,58 @@
   "nav": {
     "home": "Accueil",
     "settings": "Paramètres",
-    "week": "Semainier"
+    "week": "Semainier",
+    "fridge": "Frigo"
   },
   "home": {
     "greeting": "Bonjour {name}",
-    "lot_notice": "Le frigo et la génération de recettes arrivent dans les prochains lots.",
+    "lot_notice": "La génération de recettes arrive au prochain lot.",
     "household_of": "Foyer : {name}",
-    "week_hint": "Qui mange quoi, et quand."
+    "week_hint": "Qui mange quoi, et quand.",
+    "fridge_hint": "Ce qu'il reste dans le frigo."
+  },
+  "inventory": {
+    "title": "Frigo",
+    "intro": "Cochez ce qu'il vous reste. Ce qui n'est pas coché est considéré comme absent.",
+    "preloaded": "Repris de la semaine dernière. Corrigez ce qui a changé.",
+    "levels": {
+      "0": "Rien",
+      "1": "Peu",
+      "2": "Assez",
+      "3": "Plein"
+    },
+    "levels_help": {
+      "0": "Je n'en ai pas",
+      "1": "Il en reste peu",
+      "2": "J'en ai assez",
+      "3": "J'en ai beaucoup, à consommer en priorité"
+    },
+    "empty_fridge": "Frigo vide",
+    "search_placeholder": "Chercher un ingrédient",
+    "no_result": "Aucun ingrédient ne correspond.",
+    "in_fridge": "{count} ingrédients dans le frigo",
+    "priority_hint": "À consommer en priorité",
+    "saving": "Enregistrement…",
+    "saved": "Enregistré",
+    "custom_badge": "perso"
+  },
+  "custom_ingredient": {
+    "section": "Ingrédients personnalisés",
+    "help": "Ajoutez ce que vous achetez et qui manque au référentiel. Les trois noms sont nécessaires : le japonais pour les courses, l'anglais pour la génération de recettes.",
+    "name_fr": "Nom français",
+    "name_ja": "Nom japonais",
+    "name_en": "Nom anglais",
+    "category": "Rayon",
+    "unit": "Unité",
+    "perishable": "Périssable (apparaît dans le frigo)",
+    "added": "Ingrédient ajouté.",
+    "duplicate": "Un ingrédient porte déjà ce nom.",
+    "units": {
+      "g": "g",
+      "ml": "ml",
+      "piece": "pièce",
+      "bunch": "botte",
+      "pack": "paquet"
+    }
   }
 }
