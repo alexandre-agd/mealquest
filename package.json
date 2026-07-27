@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "generation": "vite-node --config vitest.config.ts scripts/generation.ts --"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
@@ -28,6 +29,7 @@
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "vite-node": "^6.0.0",
     "vitest": "^4.1.10"
   }
 }

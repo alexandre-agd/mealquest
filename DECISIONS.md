@@ -205,6 +205,69 @@ Réversible : oui.
 
 ---
 
+## [2026-07-28] Le moteur de génération est validé par du code, pas par confiance
+
+Contexte : docs/05 fixe dix contraintes de sortie (S1 à S10). Le risque
+central du projet est qu'une carte non conforme atteigne l'utilisateur : un
+ingrédient inventé fausse la liste de courses, un allergène met en danger.
+
+Choix : la validation est un module pur (`lib/ai/validation.ts`), sans appel
+réseau ni accès base, donc testable seul. Chaque contrainte est traitée selon
+ce que prescrit `docs/05` : rejet pour S1, S2, S3, S4, S7, S8 et S9 ;
+correction automatique pour S5 et S6 ; simple signalement pour S10.
+
+Deux points méritent d'être notés.
+
+- Les points du verso ne sont **jamais** repris du modèle : ils sont calculés
+  par le code (RG-23). Le prompt le dit explicitement au modèle.
+- Une carte fautive n'invalide pas les autres : les cartes sont validées une
+  à une, et la génération conserve ce qui est bon.
+
+28 tests couvrent ce module, dont les cas d'allergène caché dans le verso et
+d'ingrédient inventé côté verso — les deux angles morts les plus probables.
+
+Réversible : oui.
+
+---
+
+## [2026-07-28] Régénération dirigée plutôt que simple réessai
+
+Contexte : RG-60 autorise deux régénérations avant échec explicite.
+
+Choix : la relance ne répète pas la même demande. Elle transmet au modèle la
+liste dédupliquée des motifs de rejet de la tentative précédente. Redemander à
+l'identique produirait vraisemblablement la même erreur, et consommerait le
+budget de tentatives pour rien.
+
+Les cartes déjà validées sont conservées d'une tentative à l'autre : on ne
+redemande que ce qui manque.
+
+Si la génération n'aboutit pas complètement mais produit des cartes valides,
+elles sont rendues avec un statut `insufficient` plutôt que jetées :
+l'utilisateur complétera à la main (P3, RG-61).
+
+Réversible : oui.
+
+---
+
+## [2026-07-28] Une seule implémentation pour les fournisseurs compatibles OpenAI
+
+Contexte : C3 impose un fournisseur remplaçable par configuration.
+
+Choix : DeepSeek, OpenAI et Mistral exposent le même format « chat
+completions ». Une implémentation paramétrée par l'URL de base les couvre
+tous les trois ; ajouter un fournisseur compatible se réduit à une ligne dans
+le registre. Un fournisseur au format différent demanderait sa propre
+implémentation, mais l'interface `AiProvider` ne changerait pas.
+
+Détail utile : `extractJson()` tolère qu'un modèle enrobe sa réponse d'un bloc
+```json ou d'une phrase d'introduction. Rejeter une génération pour un défaut
+de forme serait absurde ; le contenu, lui, reste validé strictement.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-28] Application strictement privée : liste d'accès en base
 
 Contexte : demande explicite de la MOA au démarrage du lot 4. Jusqu'ici,

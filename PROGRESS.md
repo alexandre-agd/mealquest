@@ -225,8 +225,65 @@ Déployé sur https://mealquest.agdevelopment.co
 - **`week_plans.points_budget` reste vide** : la colonne existe pour le lot 4,
   rien ne l'alimente encore.
 
+---
+
+## Lot 4a — Sécurité d'accès et moteur de génération — TERMINÉ (2026-07-28)
+
+Le lot 4 est scindé en deux, comme le prévoit `docs/07`. Le 4a couvre tout ce
+qui est testable sans interface ; le 4b portera le booster et le planning.
+
+### Ajout hors périmètre initial : l'application devient strictement privée
+Demande de la MOA au démarrage du lot, motivée par l'arrivée d'un secret à
+protéger.
+
+- **Liste d'accès nominative** : un trigger sur `auth.users` refuse toute
+  adresse absente de `allowed_signups`. S'applique au mot de passe, à Google
+  et à un appel direct de l'API. Gérée depuis les paramètres, par un
+  administrateur uniquement.
+- **La clé du modèle n'est déchiffrable que par le serveur** : la fonction de
+  lecture n'est accordée qu'au rôle `service_role`. Un compte connecté ne
+  peut pas la récupérer, même avec une session valide.
+- **Un espace, une clé** : vérifié sur deux foyers, chacun ne résout que sa
+  propre clé. Un nouvel arrivant devra saisir la sienne.
+
+### Ce qui marche
+- **Validation stricte des sorties** (`lib/ai/validation.ts`), module pur sans
+  réseau ni base : rejet pour S1, S2, S3, S4, S7, S8, S9 ; correction
+  automatique pour S5 et S6 ; signalement pour S10. Les points du verso sont
+  calculés par le code, jamais repris du modèle (RG-23).
+- **Abstraction du fournisseur** (C3) : une implémentation couvre DeepSeek,
+  OpenAI et Mistral. Changer de fournisseur ne touche pas le moteur.
+- **Prompts dans des fichiers versionnés** (`prompts/`), avec le numéro de
+  version journalisé à chaque génération.
+- **Contexte de génération** conforme à `docs/05` §3 : contraintes du foyer,
+  besoins avec portions du verso distinctes, frigo niveaux 2 et 3,
+  référentiel complet, historique, règles d'équilibre de la main.
+- **Régénération dirigée** : la relance transmet les motifs de rejet plutôt
+  que de répéter la demande. Deux tentatives maximum, cartes déjà validées
+  conservées, échec explicite ensuite.
+- **Script de test isolé** : `npm run generation`.
+- 121 tests au total, dont 46 sur le moteur.
+
+### Ce qui demande une action de la MOA
+- **Calibrage des prompts** : lancer `npm run generation` avec une vraie clé
+  et juger la sortie, en particulier la qualité du japonais (critère A4.22,
+  qui ne se teste qu'avec une locutrice native).
+- **`SUPABASE_SERVICE_ROLE_KEY`** doit être renseignée dans Dokploy, sinon la
+  génération ne pourra pas lire la clé du foyer.
+
+### Limites connues, assumées à ce stade
+- **Les cartes ne sont pas encore persistées** : le 4a s'arrête à la
+  génération validée. Les tables `cards` arrivent au 4b, avec le booster.
+- **Aucun appel réel au modèle n'a encore été effectué** : le moteur est
+  vérifié par des tests déterministes, pas contre l'API DeepSeek. Le premier
+  appel réel se fera par le script.
+- **Les traces de génération ne sont pas encore stockées en base** : elles
+  sont exposées par l'orchestrateur et affichées par le script, mais leur
+  archivage attend le 4b.
+- **S4 ne vérifie pas le sens** : on contrôle que les deux langues existent et
+  ont la même structure, pas qu'elles décrivent le même plat. Seule une
+  lectrice native peut le juger.
+
 ### Prochaine étape
-Lot 4 — Moteur de génération et planning (`docs/07-backlog-batchs.md`). C'est
-le lot le plus long et le plus incertain du projet, celui qui concentre le
-risque. Il pourra être scindé en 4a (génération et validation, testable en
-ligne de commande) et 4b (interface de booster et planning).
+Lot 4b — booster, sélection dans la main, affectation au planning, cartes
+neutres, compteur de points, création manuelle de carte.
