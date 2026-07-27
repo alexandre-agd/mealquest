@@ -205,6 +205,62 @@ Réversible : oui.
 
 ---
 
+## [2026-07-27] Dates du semainier stockées en `date`, pas en instant
+
+Contexte : C8 impose Asia/Tokyo partout, C9 la semaine du lundi au dimanche.
+
+Choix : une case du semainier est un jour de calendrier, pas un instant. La
+colonne est de type `date` et le code manipule des chaînes « AAAA-MM-JJ ».
+Le fuseau n'intervient qu'à un seul endroit, « quel jour sommes-nous à
+Tokyo ? », résolu par `Intl.DateTimeFormat` sans dépendance externe. Le reste
+est de l'arithmétique de calendrier, insensible au fuseau.
+
+Stocker un `timestamptz` aurait obligé à reconvertir à chaque lecture, avec le
+risque classique du repas qui glisse d'un jour selon le fuseau de l'appareil.
+Le Japon n'appliquant pas d'heure d'été, le dernier piège habituel disparaît.
+
+Réversible : oui, mais aucune raison.
+
+---
+
+## [2026-07-27] Les disponibilités ne sont pas rattachées à un plan de semaine
+
+Contexte : `docs/04` décrit une entité « Plan de semaine » et une entité
+« Disponibilité ». La tentation était de créer les deux tout de suite.
+
+Choix : au lot 2, seule la table `availabilities` existe, clé sur
+(membre, date, créneau). Un plan de semaine n'a rien à porter tant qu'il n'y
+a ni inventaire (lot 3) ni cartes (lot 4) à y rattacher. La table
+`week_plans` sera créée au lot 3, quand l'inventaire devra s'y accrocher
+(RG-29).
+
+Conséquence utile : le semainier fonctionne sur n'importe quelle semaine,
+passée ou future, sans qu'il faille créer un plan au préalable.
+
+Réversible : oui, ajouter une référence plus tard est trivial.
+
+---
+
+## [2026-07-27] Saisie du semainier en lots, avec mise à jour optimiste
+
+Contexte : P1 et A2.13 — la saisie du semainier doit tenir en 60 secondes à
+deux. Un aller-retour réseau par case rendrait ce budget intenable, et les
+raccourcis modifient 7 ou 14 cases d'un coup.
+
+Choix : l'écran tient l'état localement et l'affiche immédiatement ;
+l'enregistrement part en arrière-plan, par lots. `saveAvailabilities()`
+accepte un tableau et fait un seul `upsert`. Le compteur de dîners et de
+bentos est recalculé côté client à chaque changement, à partir du même moteur
+que le serveur (`lib/week/needs.ts`), donc sans divergence possible.
+
+Limite assumée : en cas d'échec réseau, l'écran affiche une erreur mais
+conserve l'affichage optimiste. Acceptable pour deux utilisateurs sur un
+réseau domestique ; à revoir si l'usage au supermarché révèle des coupures.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-27] Origine publique résolue explicitement, jamais depuis la requête
 
 Contexte : la connexion Google renvoyait le navigateur sur

@@ -32,11 +32,13 @@ describe("dictionnaires fr/ja", () => {
 
   it("traduit le japonais, il ne recopie pas le français", () => {
     // Quelques libellés partagent volontairement la même valeur dans les
-    // deux langues (nom du produit, noms de langues affichés tels quels).
+    // deux langues : nom du produit, noms de langues affichés tels quels,
+    // et symboles typographiques qui n'appartiennent à aucune langue.
     const sharedOnPurpose = new Set([
       "app.name",
       "member.language_fr",
       "member.language_ja",
+      "week.status_short.libre", // « — » : case vide dans la grille
     ]);
 
     const identical = flattenKeys(dictionaries.fr).filter(

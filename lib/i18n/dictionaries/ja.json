@@ -159,13 +159,49 @@
     "clear": "キーを削除する",
     "key_never_shown": "安全のため、登録済みのキーを表示することはできません。"
   },
+  "week": {
+    "title": "献立表",
+    "lunch": "昼",
+    "dinner": "夜",
+    "previous_week": "前の週",
+    "next_week": "次の週",
+    "this_week": "今週",
+    "status": {
+      "maison": "家で食べる",
+      "bento": "お弁当",
+      "exterieur": "外で食べる",
+      "libre": "自由"
+    },
+    "status_short": {
+      "maison": "家",
+      "bento": "弁当",
+      "exterieur": "外",
+      "libre": "—"
+    },
+    "counter": "夕食 {dinners} 回、お弁当 {bentos} 個の予定です",
+    "orphan_lunches": "うち {count} 回は前日の夕食がありません",
+    "shortcuts": "かんたん入力",
+    "copy_previous_week": "前の週をコピー",
+    "copy_to_other_members": "全員に反映",
+    "apply_to_row": "1週間まとめて設定",
+    "apply_row_lunch": "昼をまとめて",
+    "apply_row_dinner": "夜をまとめて",
+    "clear_week": "すべて自由に戻す",
+    "copied": "コピーしました",
+    "nothing_to_copy": "前の週は空のため、コピーするものがありません。",
+    "portions": "{count} 人分",
+    "portion_one": "1 人分",
+    "verso_note": "翌日のお弁当は {count} 人分です"
+  },
   "nav": {
     "home": "ホーム",
-    "settings": "設定"
+    "settings": "設定",
+    "week": "献立表"
   },
   "home": {
     "greeting": "こんにちは、{name}さん",
-    "lot_notice": "献立表・冷蔵庫の在庫・レシピの生成は、今後のアップデートで追加されます。",
-    "household_of": "家族：{name}"
+    "lot_notice": "冷蔵庫の在庫とレシピの生成は、今後のアップデートで追加されます。",
+    "household_of": "家族：{name}",
+    "week_hint": "だれが、いつ、家で食べるかを入力します。"
   }
 }

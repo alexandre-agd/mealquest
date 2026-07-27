@@ -4,10 +4,11 @@ Application privée de planification hebdomadaire des repas pour un foyer de
 2 personnes. Voir `docs/01-brief-moa.md` pour le contexte complet, et
 `DECISIONS.md` pour les choix techniques.
 
-**État actuel : Lot 1 terminé.** Authentification, création du foyer et des
-membres, interface bilingue fr/ja par membre, allergies et dégoûts, objectif
-et budget de points, matériel de cuisine, clé API du modèle. Le semainier, le
-frigo et la génération de recettes arrivent aux lots suivants.
+**État actuel : Lot 2 terminé.** Authentification, foyer et membres, interface
+bilingue fr/ja par membre, allergies et dégoûts, objectif et budget de points,
+matériel de cuisine, clé API du modèle, et semainier des disponibilités avec
+calcul des besoins et des portions. Le frigo et la génération de recettes
+arrivent aux lots suivants.
 Voir `PROGRESS.md` pour le détail des critères d'acceptation.
 
 ---
@@ -177,6 +178,7 @@ lib/
   i18n/                  Dictionnaires fr/ja et sélecteur de langue
   supabase/              Clients Supabase (navigateur et serveur)
   household/             Règles du foyer : budget de points, matériel
+  week/                  Dates Asia/Tokyo et moteur de besoins
 components/              Primitives d'interface partagées
 middleware.ts            Session Supabase et protection des routes
 supabase/migrations/     Migrations SQL (schéma, RLS, référentiel)

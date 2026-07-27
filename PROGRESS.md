@@ -114,7 +114,67 @@ Déployé sur https://mealquest.agdevelopment.co
 - **Dégoûts alimentaires** : la recherche porte sur les noms français et
   japonais du référentiel, sans tolérance aux fautes de frappe ni aux accents.
 
+---
+
+## Lot 2 — Semainier et moteur de besoins — TERMINÉ (2026-07-27)
+
+### Ce qui marche
+- **Grille 7 jours × 2 créneaux**, une couche par membre, bascule en un tap.
+- **Quatre statuts** par case, cycle au tap. Le `bento` n'existe qu'au midi,
+  garanti par une contrainte en base et pas seulement par l'interface.
+- **Raccourcis** : régler toute une colonne en un geste, copier la semaine
+  précédente, appliquer la semaine du membre courant à tous les autres,
+  remettre la semaine à zéro.
+- **Compteur permanent** de dîners et de bentos, recalculé à chaque tap, avec
+  mention des déjeuners orphelins.
+- **Moteur de besoins** (`lib/week/needs.ts`) : besoins dîner et déjeuner,
+  déjeuners orphelins, portions avec coefficient enfant, portions du verso.
+- **Navigation de semaine** libre, passé comme futur. Une URL bricolée avec
+  un mercredi est ramenée au lundi de sa semaine.
+- 68 tests au total, dont 26 sur les dates et le moteur de besoins.
+
+### Critères d'acceptation (docs/06)
+
+| # | Critère | Résultat |
+|---|---|---|
+| A2.1 | Grille lundi à dimanche, midi et soir | **OK** |
+| A2.2 | Régler chaque case sur les 4 statuts | **OK** |
+| A2.3 | `bento` non proposé le soir | **OK** — vérifié à l'écran (cycle du soir à 3 états) et en base (contrainte `check` qui rejette l'insertion) |
+| A2.4 | Basculer d'un membre à l'autre en un geste | **OK** |
+| A2.5 | Appliquer un statut à toute une ligne en un geste | **OK** — un tap sur l'en-tête règle les 7 jours |
+| A2.6 | Copier la semaine précédente en un geste | **OK** — copie vérifiée en base, distributions identiques |
+| A2.7 | Compteur permanent dîners / bentos | **OK** — passe de 1 à 7 dîners en direct |
+| A2.8 | Mardi soir, 1 `maison` + 1 `exterieur` → 1 besoin, 1 portion | **OK** — test unitaire dédié |
+| A2.9 | Mercredi midi, 1 `exterieur` + 1 `bento` → 1 besoin, 1 portion | **OK** — test unitaire dédié |
+| A2.10 | Dîner 2 personnes, bento du lendemain pour 1 → verso à 1 portion | **OK** — le point dur du lot : 5 tests dédiés, dont le cas inverse (verso plus grand que le dîner) et le cas sans besoin le lendemain |
+| A2.11 | Lundi midi avec besoin, dimanche soir sans → orphelin | **OK** — test unitaire dédié |
+| A2.12 | Case jamais touchée = `libre`, aucun besoin | **OK** |
+| A2.13 | Saisie complète en moins de 60 secondes, chronomètre en main | **À VÉRIFIER PAR LA MOA** — voir ci-dessous |
+
+### Ce qui demande une action de la MOA
+- **A2.13** est un critère chronométré, à deux personnes : il ne peut pas être
+  validé autrement qu'en conditions réelles. Ordre de grandeur observé en
+  test : une semaine type se saisit en une dizaine de taps (un tap par
+  colonne réglée, un tap pour appliquer à l'autre membre, quelques
+  corrections), et une semaine qui ressemble à la précédente en un seul.
+  À confirmer avec un vrai dimanche soir.
+
+### Limites connues, assumées à ce stade
+- **Mise à jour optimiste** : l'écran affiche le changement avant confirmation
+  du serveur. En cas d'échec réseau, un message apparaît mais l'affichage
+  n'est pas rétabli. Acceptable sur un réseau domestique, à revoir si des
+  coupures se produisent.
+- **Pas de table `week_plans`** : elle arrive au lot 3, quand l'inventaire
+  devra s'y rattacher (RG-29). Le semainier fonctionne sans.
+- **Copie de semaine et membres supprimés** : copier une semaine dont un
+  membre a été supprimé entre-temps ignore simplement ses lignes.
+
 ### Prochaine étape
-Lot 2 — Semainier et moteur de besoins (`docs/07-backlog-batchs.md`), dont le
-point dur annoncé est A2.10 : l'asymétrie entre les portions du dîner et
-celles du bento du lendemain.
+Lot 3 — Référentiel d'ingrédients et inventaire du frigo
+(`docs/07-backlog-batchs.md`). Le référentiel est déjà importé et contrôlé
+depuis le lot 1 ; le lot 3 portera donc sur l'écran d'inventaire, le tri par
+fréquence d'usage, la recherche et l'ajout d'ingrédient personnalisé.
+
+**Avant de démarrer le lot 3** : la relecture des 170 noms japonais du
+référentiel avec une locutrice native reste le prérequis annoncé par
+`README-PACK.md`.

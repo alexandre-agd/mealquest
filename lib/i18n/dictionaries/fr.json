@@ -159,13 +159,49 @@
     "clear": "Supprimer la clé",
     "key_never_shown": "Par sécurité, une clé enregistrée ne peut plus être affichée."
   },
+  "week": {
+    "title": "Semaine",
+    "lunch": "Midi",
+    "dinner": "Soir",
+    "previous_week": "Semaine précédente",
+    "next_week": "Semaine suivante",
+    "this_week": "Cette semaine",
+    "status": {
+      "maison": "À la maison",
+      "bento": "Bento",
+      "exterieur": "Dehors",
+      "libre": "Libre"
+    },
+    "status_short": {
+      "maison": "Maison",
+      "bento": "Bento",
+      "exterieur": "Dehors",
+      "libre": "—"
+    },
+    "counter": "{dinners} dîners, {bentos} bentos à prévoir",
+    "orphan_lunches": "dont {count} midi sans dîner la veille",
+    "shortcuts": "Raccourcis",
+    "copy_previous_week": "Copier la semaine précédente",
+    "copy_to_other_members": "Appliquer à tous les membres",
+    "apply_to_row": "Appliquer à toute la semaine",
+    "apply_row_lunch": "Tous les midis",
+    "apply_row_dinner": "Tous les soirs",
+    "clear_week": "Tout remettre à libre",
+    "copied": "Copié",
+    "nothing_to_copy": "Rien à copier : la semaine précédente est vide.",
+    "portions": "{count} portions",
+    "portion_one": "1 portion",
+    "verso_note": "Bento du lendemain prévu pour {count}"
+  },
   "nav": {
     "home": "Accueil",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "week": "Semainier"
   },
   "home": {
     "greeting": "Bonjour {name}",
-    "lot_notice": "Le semainier, le frigo et la génération de recettes arrivent dans les prochains lots.",
-    "household_of": "Foyer : {name}"
+    "lot_notice": "Le frigo et la génération de recettes arrivent dans les prochains lots.",
+    "household_of": "Foyer : {name}",
+    "week_hint": "Qui mange quoi, et quand."
   }
 }
