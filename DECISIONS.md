@@ -230,6 +230,38 @@ Réversible : oui, il suffit de supprimer le trigger.
 
 ---
 
+## [2026-07-28] Un espace, une clé : cloisonnement vérifié et durci
+
+Contexte : question de la MOA — « si j'ouvre à d'autres personnes, chacun doit
+mettre sa propre clé API ».
+
+Constat : le cloisonnement était déjà acquis par construction. La clé est
+portée par le foyer (`households.ai_api_key_secret_id`), il n'existe aucune
+clé partagée, et un foyer ne voit pas la ligne d'un autre. Vérifié en
+transaction annulée : deux foyers, deux clés distinctes, aucune fuite.
+
+Deux points restaient néanmoins ouverts, corrigés ici.
+
+**1. La liste d'accès était modifiable par n'importe quel compte connecté.**
+Sans conséquence à deux personnes, mais dès qu'un tiers a un compte il
+pourrait inviter qui il veut. Ajout d'un indicateur `profiles.is_admin` et de
+politiques réservant lecture et écriture aux administrateurs. Les comptes
+existants ont été promus, sinon plus personne n'aurait pu gérer la liste.
+
+**2. `get_household_ai_key()` acceptait n'importe quel identifiant de foyer.**
+Le rôle `service_role` n'ayant pas de session, rien dans la base ne
+vérifiait la correspondance : la garantie reposait uniquement sur la rigueur
+du code serveur. Remplacée par `get_ai_key_for_user(p_user_id)`, qui remonte
+elle-même du compte à son foyer. Une erreur de programmation ne peut plus
+faire lire la clé d'un autre espace.
+
+Vérifié : un non-administrateur ne voit aucune ligne de la liste d'accès et
+ne peut pas y écrire ; chaque compte ne résout que la clé de son propre foyer.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-28] La clé du modèle n'est déchiffrable que par le serveur
 
 Contexte : le lot 4 doit relire la clé du fournisseur d'IA pour appeler le

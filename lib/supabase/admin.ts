@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseConfig } from "./config";
+import { createClient as createServerClient } from "./server";
 
 /**
  * Client Supabase à privilèges élevés, réservé au serveur.
@@ -37,16 +38,26 @@ export function hasAdminClient(): boolean {
 }
 
 /**
- * Clé du fournisseur d'IA du foyer, en clair.
+ * Clé du fournisseur d'IA du compte connecté, en clair.
+ *
+ * Le foyer n'est pas un paramètre : la fonction lit la session, et la base
+ * remonte elle-même du compte à son foyer. Chaque espace utilise donc sa
+ * propre clé, et aucune erreur de programmation ici ne peut faire lire la
+ * clé d'un autre foyer.
  *
  * Ne jamais renvoyer cette valeur à un composant client, ni la journaliser.
  */
-export async function readHouseholdAiKey(
-  householdId: string,
-): Promise<string | null> {
+export async function readAiKeyForCurrentUser(): Promise<string | null> {
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
   const admin = createAdminClient();
-  const { data, error } = await admin.rpc("get_household_ai_key", {
-    p_household_id: householdId,
+  const { data, error } = await admin.rpc("get_ai_key_for_user", {
+    p_user_id: user.id,
   });
 
   if (error) {

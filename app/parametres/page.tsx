@@ -36,8 +36,12 @@ export default async function SettingsPage() {
       .select("id, name_fr, name_ja, category")
       .order("name_fr"),
     supabase.from("member_dislikes").select("member_id, ingredient_id"),
+    // RLS ne renvoie ces lignes qu'à un administrateur : un membre ordinaire
+    // reçoit une liste vide et ne voit donc pas la section.
     supabase.from("allowed_signups").select("email, note").order("created_at"),
   ]);
+
+  const { data: isAdmin } = await supabase.rpc("is_admin");
 
   const dislikesByMember: Record<string, string[]> = {};
   for (const row of dislikeRows ?? []) {
@@ -89,7 +93,9 @@ export default async function SettingsPage() {
 
       <CustomIngredientSection t={t} />
 
-      <AccessSection t={t} allowed={allowed} currentEmail={currentEmail} />
+      {isAdmin ? (
+        <AccessSection t={t} allowed={allowed} currentEmail={currentEmail} />
+      ) : null}
 
       <AiSection t={t} household={household} />
 
