@@ -198,14 +198,16 @@
     "home": "Accueil",
     "settings": "Paramètres",
     "week": "Semainier",
-    "fridge": "Frigo"
+    "fridge": "Frigo",
+    "booster": "Booster"
   },
   "home": {
     "greeting": "Bonjour {name}",
     "lot_notice": "La génération de recettes arrive au prochain lot.",
     "household_of": "Foyer : {name}",
     "week_hint": "Qui mange quoi, et quand.",
-    "fridge_hint": "Ce qu'il reste dans le frigo."
+    "fridge_hint": "Ce qu'il reste dans le frigo.",
+    "booster_hint": "Générer les recettes de la semaine."
   },
   "inventory": {
     "title": "Frigo",
@@ -263,5 +265,53 @@
     "no_account": "pas encore de compte",
     "revoke_warning": "Retirer une adresse n'efface pas le compte déjà créé, cela empêche seulement d'en recréer un.",
     "cannot_revoke_self": "Vous ne pouvez pas retirer votre propre adresse."
+  },
+  "booster": {
+    "title": "Booster",
+    "intro": "Ouvrez le booster pour recevoir des propositions de recettes.",
+    "generate": "Ouvrir le booster",
+    "regenerate": "Relancer le booster",
+    "generating": "Génération en cours…",
+    "generating_hint": "Cela prend entre 20 et 60 secondes. Vous pouvez laisser l'écran ouvert.",
+    "no_key": "Aucune clé n'est enregistrée. Vous pouvez tout de même planifier votre semaine à la main.",
+    "no_key_action": "Configurer la clé",
+    "no_needs": "Aucun repas à prévoir cette semaine. Renseignez d'abord le semainier.",
+    "no_needs_action": "Ouvrir le semainier",
+    "provider_error": "Le fournisseur d'IA n'a pas répondu. Réessayez dans un instant.",
+    "unreadable": "Les recettes reçues n'étaient pas exploitables. Réessayez, ou créez une carte à la main.",
+    "server_not_configured": "La configuration du serveur est incomplète : la clé ne peut pas être lue.",
+    "partial": "{generated} cartes sur {expected} demandées. Vous pouvez relancer ou compléter à la main.",
+    "hand_title": "Votre main",
+    "hand_empty": "Aucune carte pour le moment.",
+    "keep": "Garder",
+    "kept": "Gardée",
+    "pass": "Passer",
+    "counter": "{kept} gardées / {needed} dîners",
+    "points_counter": "{used} / {budget} points",
+    "assign": "Placer sur le semainier",
+    "assigned": "Placée",
+    "manual_card": "Créer une carte à la main",
+    "neutral_title": "Cartes neutres",
+    "neutral": {
+      "restaurant": "Restaurant",
+      "libre": "Repas libre",
+      "restes": "Restes"
+    },
+    "verso_of": "Verso de {title}",
+    "minutes": "{count} min",
+    "portions": "{count} portions"
+  },
+  "cuisines": {
+    "japonaise": "Japonaise",
+    "francaise": "Française",
+    "italienne": "Italienne",
+    "chinoise": "Chinoise",
+    "coreenne": "Coréenne",
+    "thailandaise": "Thaïlandaise",
+    "indienne": "Indienne",
+    "mexicaine": "Mexicaine",
+    "americaine": "Américaine",
+    "mediterraneenne": "Méditerranéenne",
+    "autre": "Autre"
   }
 }

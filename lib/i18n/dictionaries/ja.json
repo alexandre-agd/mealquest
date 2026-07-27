@@ -198,14 +198,16 @@
     "home": "ホーム",
     "settings": "設定",
     "week": "献立表",
-    "fridge": "冷蔵庫"
+    "fridge": "冷蔵庫",
+    "booster": "ブースター"
   },
   "home": {
     "greeting": "こんにちは、{name}さん",
     "lot_notice": "レシピの生成は次のアップデートで追加されます。",
     "household_of": "家族：{name}",
     "week_hint": "だれが、いつ、家で食べるかを入力します。",
-    "fridge_hint": "冷蔵庫に残っているもの。"
+    "fridge_hint": "冷蔵庫に残っているもの。",
+    "booster_hint": "今週のレシピを生成します。"
   },
   "inventory": {
     "title": "冷蔵庫",
@@ -263,5 +265,53 @@
     "no_account": "未作成",
     "revoke_warning": "アドレスを削除しても、すでに作成されたアカウントは消えません。新しく作れなくなるだけです。",
     "cannot_revoke_self": "ご自身のアドレスは削除できません。"
+  },
+  "booster": {
+    "title": "ブースター",
+    "intro": "ブースターを開くと、レシピの候補が届きます。",
+    "generate": "ブースターを開く",
+    "regenerate": "もう一度ブースターを開く",
+    "generating": "生成中です…",
+    "generating_hint": "20〜60秒ほどかかります。このまま画面を開いてお待ちください。",
+    "no_key": "APIキーが登録されていません。手動で1週間の献立を組むこともできます。",
+    "no_key_action": "キーを設定する",
+    "no_needs": "今週は用意する食事がありません。先に献立表を入力してください。",
+    "no_needs_action": "献立表を開く",
+    "provider_error": "生成サービスから応答がありませんでした。少し時間をおいてお試しください。",
+    "unreadable": "受け取ったレシピが利用できる形式ではありませんでした。もう一度お試しになるか、手動で登録してください。",
+    "server_not_configured": "サーバーの設定が不十分なため、キーを読み取れません。",
+    "partial": "{expected} 件のうち {generated} 件が届きました。もう一度試すか、手動で追加できます。",
+    "hand_title": "候補のカード",
+    "hand_empty": "まだカードがありません。",
+    "keep": "選ぶ",
+    "kept": "選択済み",
+    "pass": "見送る",
+    "counter": "夕食 {needed} 回に対して {kept} 件選択",
+    "points_counter": "{used} / {budget} ポイント",
+    "assign": "献立表に入れる",
+    "assigned": "登録しました",
+    "manual_card": "手動でカードを作る",
+    "neutral_title": "そのほかの選択",
+    "neutral": {
+      "restaurant": "外食",
+      "libre": "自由な食事",
+      "restes": "残りもの"
+    },
+    "verso_of": "{title} のお弁当",
+    "minutes": "{count} 分",
+    "portions": "{count} 人分"
+  },
+  "cuisines": {
+    "japonaise": "和食",
+    "francaise": "フレンチ",
+    "italienne": "イタリアン",
+    "chinoise": "中華",
+    "coreenne": "韓国料理",
+    "thailandaise": "タイ料理",
+    "indienne": "インド料理",
+    "mexicaine": "メキシコ料理",
+    "americaine": "アメリカ料理",
+    "mediterraneenne": "地中海料理",
+    "autre": "その他"
   }
 }

@@ -64,7 +64,13 @@ export default async function Home() {
         <p className="mt-1 text-sm text-muted">{t.home.fridge_hint}</p>
       </Link>
 
-      <p className="text-sm text-muted">{t.home.lot_notice}</p>
+      <Link
+        href="/booster"
+        className="rounded-2xl border border-accent bg-surface p-5 text-left transition-colors"
+      >
+        <p className="font-medium">{t.booster.title}</p>
+        <p className="mt-1 text-sm text-muted">{t.home.booster_hint}</p>
+      </Link>
     </main>
   );
 }
