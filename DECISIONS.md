@@ -205,6 +205,33 @@ Réversible : oui.
 
 ---
 
+## [2026-07-27] Version de npm épinglée dans le Dockerfile
+
+Contexte : le build Dokploy a échoué deux fois sur `npm ci`, avec des paquets
+`@emnapi` tantôt manquants, tantôt en version incompatible. Ces paquets sont
+tirés par `@img/sharp-wasm32`, le repli WebAssembly de `sharp`, lui-même
+dépendance optionnelle de Next.js.
+
+Cause réelle : la machine de développement utilisait npm 11.6.2, l'image
+`node:24-alpine` embarquait npm 11.16.0. Deux versions de npm ne résolvent
+pas l'arbre des dépendances optionnelles à l'identique, et `npm ci` est
+strict : il rejette un lockfile qui ne correspond pas exactement à sa propre
+résolution. La première correction (régénérer le lockfile) ne traitait que le
+symptôme — l'ajout d'une dépendance a suffi à le recasser.
+
+Choix : la version de npm est épinglée dans le `Dockerfile` (`ARG
+NPM_VERSION`), et le lockfile est régénéré avec cette même version via
+`npx --yes npm@<version> install`. Le lockfile et le conteneur utilisent donc
+toujours le même résolveur, y compris quand l'image de base évolue.
+
+Alternatives écartées : remplacer `npm ci` par `npm install` dans le
+Dockerfile — supprimerait l'erreur, mais aussi la reproductibilité du build,
+qui est précisément ce qu'apporte le lockfile.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-27] Gestionnaire de paquets : npm
 
 Contexte : `pnpm` n'est pas installé sur la machine de développement, `npm`

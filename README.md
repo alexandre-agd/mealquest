@@ -35,6 +35,17 @@ Voir `PROGRESS.md` pour le détail des critères d'acceptation.
 npm install
 ```
 
+⚠️ **Pour ajouter ou mettre à jour une dépendance**, régénérez le lockfile
+avec la version de npm épinglée dans le `Dockerfile`, sinon le build de
+production échouera sur `npm ci` :
+
+```bash
+npx --yes npm@11.16.0 install
+```
+
+La raison est expliquée dans `DECISIONS.md` (deux versions de npm ne
+résolvent pas les dépendances optionnelles à l'identique).
+
 ---
 
 ## Configuration

@@ -1,9 +1,22 @@
 # syntax=docker/dockerfile:1
 
+# Version de npm épinglée, et identique à celle qui a généré
+# package-lock.json. Sans cet épinglage, la version de npm embarquée dans
+# node:24-alpine évolue avec l'image de base, et deux versions de npm ne
+# résolvent pas l'arbre de dépendances à l'identique : `npm ci`, qui est
+# strict, rejette alors un lockfile pourtant valide. Constaté deux fois en
+# déploiement, sur les paquets @emnapi tirés par le repli wasm de sharp.
+#
+# Pour mettre à jour les dépendances, régénérer le lockfile avec cette
+# même version :  npx --yes npm@11.16.0 install
+ARG NPM_VERSION=11.16.0
+
 FROM node:24-alpine AS deps
+ARG NPM_VERSION
 WORKDIR /app
+RUN npm install -g npm@${NPM_VERSION}
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --no-audit --no-fund
 
 FROM node:24-alpine AS builder
 WORKDIR /app
