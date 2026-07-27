@@ -1,0 +1,171 @@
+key,name_fr,name_ja,name_en,category,default_unit,perishable,staple,allergen,typical_pack
+cabbage,Chou,キャベツ,Cabbage,vegetables,g,true,false,,1000
+napa_cabbage,Chou chinois,白菜,Napa cabbage,vegetables,g,true,false,,1000
+lettuce,Laitue,レタス,Lettuce,vegetables,piece,true,false,,1
+spinach,Épinards,ほうれん草,Spinach,vegetables,bunch,true,false,,1
+komatsuna,Komatsuna,小松菜,Komatsuna,vegetables,bunch,true,false,,1
+mizuna,Mizuna,水菜,Mizuna,vegetables,bunch,true,false,,1
+shungiku,Chrysanthème comestible,春菊,Garland chrysanthemum,vegetables,bunch,true,false,,1
+bean_sprouts,Pousses de soja,もやし,Bean sprouts,vegetables,pack,true,false,soy,200
+carrot,Carotte,にんじん,Carrot,vegetables,piece,true,false,,3
+onion,Oignon,玉ねぎ,Onion,vegetables,piece,true,false,,3
+green_onion,Ciboule japonaise,長ねぎ,Japanese leek,vegetables,piece,true,false,,2
+chives_thin,Ciboulette fine,小ねぎ,Thin green onion,vegetables,bunch,true,false,,1
+nira,Ciboulette chinoise,ニラ,Garlic chives,vegetables,bunch,true,false,,1
+potato,Pomme de terre,じゃがいも,Potato,vegetables,piece,true,false,,4
+sweet_potato,Patate douce,さつまいも,Sweet potato,vegetables,piece,true,false,,2
+taro,Taro,里芋,Taro,vegetables,g,true,false,,300
+daikon,Radis blanc,大根,Daikon radish,vegetables,piece,true,false,,1
+turnip,Navet,かぶ,Turnip,vegetables,piece,true,false,,3
+burdock,Bardane,ごぼう,Burdock root,vegetables,piece,true,false,,1
+lotus_root,Racine de lotus,れんこん,Lotus root,vegetables,g,true,false,,200
+tomato,Tomate,トマト,Tomato,vegetables,piece,true,false,,4
+cherry_tomato,Tomate cerise,ミニトマト,Cherry tomato,vegetables,pack,true,false,,1
+cucumber,Concombre,きゅうり,Cucumber,vegetables,piece,true,false,,3
+eggplant,Aubergine,なす,Eggplant,vegetables,piece,true,false,,4
+green_pepper,Poivron vert japonais,ピーマン,Green bell pepper,vegetables,piece,true,false,,4
+paprika_pepper,Poivron coloré,パプリカ,Bell pepper,vegetables,piece,true,false,,1
+zucchini,Courgette,ズッキーニ,Zucchini,vegetables,piece,true,false,,1
+pumpkin,Potiron japonais,かぼちゃ,Kabocha squash,vegetables,g,true,false,,400
+broccoli,Brocoli,ブロッコリー,Broccoli,vegetables,piece,true,false,,1
+cauliflower,Chou-fleur,カリフラワー,Cauliflower,vegetables,piece,true,false,,1
+asparagus,Asperge,アスパラガス,Asparagus,vegetables,pack,true,false,,1
+green_beans,Haricots verts,いんげん,Green beans,vegetables,pack,true,false,,1
+snap_peas,Pois gourmands,絹さや,Snap peas,vegetables,pack,true,false,,1
+corn,Maïs,とうもろこし,Corn,vegetables,piece,true,false,,1
+okra,Okra,オクラ,Okra,vegetables,pack,true,false,,1
+goya,Melon amer,ゴーヤ,Bitter melon,vegetables,piece,true,false,,1
+bamboo_shoot,Pousse de bambou,たけのこ,Bamboo shoot,vegetables,g,true,false,,200
+shiitake,Shiitake,しいたけ,Shiitake mushroom,vegetables,pack,true,false,,1
+shimeji,Shimeji,しめじ,Shimeji mushroom,vegetables,pack,true,false,,1
+enoki,Enoki,えのき,Enoki mushroom,vegetables,pack,true,false,,1
+maitake,Maitake,まいたけ,Maitake mushroom,vegetables,pack,true,false,,1
+eringi,Pleurote du panicaut,エリンギ,King oyster mushroom,vegetables,pack,true,false,,1
+mushroom_button,Champignon de Paris,マッシュルーム,Button mushroom,vegetables,pack,true,false,,1
+ginger,Gingembre,しょうが,Ginger,vegetables,g,true,false,,100
+garlic,Ail,にんにく,Garlic,vegetables,piece,true,false,,1
+myoga,Myoga,みょうが,Myoga ginger,vegetables,pack,true,false,,1
+shiso,Shiso,大葉,Shiso leaf,vegetables,pack,true,false,,1
+avocado,Avocat,アボカド,Avocado,fruits,piece,true,false,,1
+lemon,Citron,レモン,Lemon,fruits,piece,true,false,,1
+sudachi,Sudachi,すだち,Sudachi citrus,fruits,piece,true,false,,3
+yuzu,Yuzu,ゆず,Yuzu,fruits,piece,true,false,,1
+apple,Pomme,りんご,Apple,fruits,piece,true,false,,1
+banana,Banane,バナナ,Banana,fruits,piece,true,false,,1
+orange_mikan,Mandarine,みかん,Mandarin orange,fruits,piece,true,false,,1
+strawberry,Fraise,いちご,Strawberry,fruits,pack,true,false,,1
+kiwi,Kiwi,キウイ,Kiwi,fruits,piece,true,false,,1
+grape,Raisin,ぶどう,Grape,fruits,pack,true,false,,1
+pear_nashi,Poire japonaise,梨,Japanese pear,fruits,piece,true,false,,1
+persimmon,Kaki,柿,Persimmon,fruits,piece,true,false,,1
+salmon_fillet,Filet de saumon,鮭の切り身,Salmon fillet,fish,piece,true,false,fish,2
+saba,Maquereau,さば,Mackerel,fish,piece,true,false,fish,2
+buri,Sériole,ぶり,Yellowtail,fish,piece,true,false,fish,2
+tai,Dorade,たい,Sea bream,fish,piece,true,false,fish,2
+sanma,Balaou,さんま,Pacific saury,fish,piece,true,false,fish,2
+aji,Chinchard,あじ,Horse mackerel,fish,piece,true,false,fish,2
+tara,Cabillaud,たら,Cod,fish,piece,true,false,fish,2
+tuna_sashimi,Thon sashimi,まぐろ刺身,Sashimi tuna,fish,pack,true,false,fish,1
+shrimp,Crevette,えび,Shrimp,fish,g,true,false,shrimp,200
+squid,Calmar,いか,Squid,fish,g,true,false,,200
+octopus,Poulpe,たこ,Octopus,fish,g,true,false,,150
+scallop,Saint-Jacques,ほたて,Scallop,fish,pack,true,false,,1
+asari_clam,Palourde,あさり,Asari clam,fish,g,true,false,,200
+canned_tuna,Thon en boîte,ツナ缶,Canned tuna,dry_goods,piece,false,true,fish,1
+chicken_thigh,Cuisse de poulet,鶏もも肉,Chicken thigh,meat,g,true,false,,300
+chicken_breast,Blanc de poulet,鶏むね肉,Chicken breast,meat,g,true,false,,300
+chicken_wing,Aile de poulet,手羽先,Chicken wing,meat,g,true,false,,400
+chicken_mince,Poulet haché,鶏ひき肉,Ground chicken,meat,g,true,false,,300
+pork_thin_slice,Porc en fines tranches,豚こま切れ,Thin sliced pork,meat,g,true,false,,300
+pork_belly_slice,Poitrine de porc en tranches,豚バラ薄切り,Sliced pork belly,meat,g,true,false,,300
+pork_loin,Longe de porc,豚ロース,Pork loin,meat,g,true,false,,300
+pork_mince,Porc haché,豚ひき肉,Ground pork,meat,g,true,false,,300
+beef_thin_slice,Bœuf en fines tranches,牛薄切り肉,Thin sliced beef,meat,g,true,false,,300
+beef_mince,Bœuf haché,牛ひき肉,Ground beef,meat,g,true,false,,300
+mixed_mince,Haché mixte porc-bœuf,合いびき肉,Mixed ground meat,meat,g,true,false,,300
+bacon,Lard fumé,ベーコン,Bacon,meat,pack,true,false,,1
+ham,Jambon,ハム,Ham,meat,pack,true,false,,1
+sausage,Saucisse,ウインナー,Sausage,meat,pack,true,false,,1
+egg,Œuf,卵,Egg,dairy_eggs,piece,true,false,egg,10
+milk,Lait,牛乳,Milk,dairy_eggs,ml,true,false,milk,1000
+butter,Beurre,バター,Butter,dairy_eggs,g,true,false,milk,200
+yogurt,Yaourt,ヨーグルト,Yogurt,dairy_eggs,g,true,false,milk,400
+cheese_shredded,Fromage râpé,とろけるチーズ,Shredded cheese,dairy_eggs,g,true,false,milk,200
+cheese_cream,Fromage frais,クリームチーズ,Cream cheese,dairy_eggs,g,true,false,milk,200
+parmesan,Parmesan,粉チーズ,Parmesan cheese,dairy_eggs,g,false,true,milk,80
+fresh_cream,Crème liquide,生クリーム,Fresh cream,dairy_eggs,ml,true,false,milk,200
+tofu_firm,Tofu ferme,木綿豆腐,Firm tofu,soy,pack,true,false,soy,1
+tofu_silken,Tofu soyeux,絹ごし豆腐,Silken tofu,soy,pack,true,false,soy,1
+atsuage,Tofu frit épais,厚揚げ,Thick fried tofu,soy,pack,true,false,soy,1
+aburaage,Tofu frit fin,油揚げ,Thin fried tofu,soy,pack,true,false,soy,1
+natto,Natto,納豆,Natto,soy,pack,true,false,soy,3
+soy_milk,Lait de soja,豆乳,Soy milk,soy,ml,true,false,soy,1000
+edamame_frozen,Edamame surgelés,冷凍枝豆,Frozen edamame,frozen,g,true,false,soy,300
+mixed_veg_frozen,Légumes surgelés mélangés,冷凍ミックスベジタブル,Frozen mixed vegetables,frozen,g,true,false,,300
+frozen_spinach,Épinards surgelés,冷凍ほうれん草,Frozen spinach,frozen,g,true,false,,200
+frozen_gyoza,Gyoza surgelés,冷凍餃子,Frozen gyoza,frozen,pack,true,false,wheat,1
+frozen_udon,Udon surgelés,冷凍うどん,Frozen udon,frozen,pack,true,false,wheat,5
+frozen_shrimp,Crevettes surgelées,冷凍えび,Frozen shrimp,frozen,g,true,false,shrimp,200
+rice,Riz,米,Rice,dry_goods,g,false,true,,5000
+pasta,Pâtes,パスタ,Pasta,dry_goods,g,false,true,wheat,500
+soba,Soba,そば,Soba noodles,dry_goods,pack,false,true,buckwheat,1
+somen,Somen,そうめん,Somen noodles,dry_goods,pack,false,true,wheat,1
+ramen_noodle,Nouilles ramen,中華麺,Ramen noodles,dry_goods,pack,true,false,wheat,3
+bread_shokupan,Pain de mie,食パン,Sliced bread,dry_goods,pack,true,false,wheat,1
+flour,Farine,小麦粉,Flour,dry_goods,g,false,true,wheat,1000
+katakuriko,Fécule de pomme de terre,片栗粉,Potato starch,dry_goods,g,false,true,,200
+panko,Panko,パン粉,Panko breadcrumbs,dry_goods,g,false,true,wheat,200
+kombu,Kombu,昆布,Kombu kelp,dry_goods,g,false,true,,50
+katsuobushi,Copeaux de bonite,かつお節,Bonito flakes,dry_goods,g,false,true,fish,50
+nori,Nori,のり,Nori seaweed,dry_goods,pack,false,true,,1
+wakame_dried,Wakame séché,乾燥わかめ,Dried wakame,dry_goods,g,false,true,,50
+hijiki,Hijiki,ひじき,Hijiki seaweed,dry_goods,g,false,true,,30
+harusame,Vermicelles,春雨,Glass noodles,dry_goods,g,false,true,,100
+dried_shiitake,Shiitake séché,干ししいたけ,Dried shiitake,dry_goods,g,false,true,,40
+canned_tomato,Tomates en conserve,トマト缶,Canned tomatoes,dry_goods,piece,false,true,,1
+chickpea_canned,Pois chiches en conserve,ひよこ豆缶,Canned chickpeas,dry_goods,piece,false,true,,1
+sesame_seed,Graines de sésame,いりごま,Toasted sesame seeds,dry_goods,g,false,true,sesame,60
+almond,Amande,アーモンド,Almond,dry_goods,g,false,true,nuts,100
+walnut,Noix,くるみ,Walnut,dry_goods,g,false,true,nuts,100
+soy_sauce,Sauce soja,しょうゆ,Soy sauce,condiments,ml,false,true,soy,1000
+miso,Miso,味噌,Miso,condiments,g,false,true,soy,750
+mirin,Mirin,みりん,Mirin,condiments,ml,false,true,,500
+cooking_sake,Saké de cuisine,料理酒,Cooking sake,condiments,ml,false,true,,500
+rice_vinegar,Vinaigre de riz,米酢,Rice vinegar,condiments,ml,false,true,,500
+sugar,Sucre,砂糖,Sugar,condiments,g,false,true,,1000
+salt,Sel,塩,Salt,condiments,g,false,true,,1000
+pepper,Poivre,こしょう,Pepper,condiments,g,false,true,,50
+dashi_powder,Dashi en poudre,だしの素,Dashi powder,condiments,g,false,true,fish,100
+consomme_cube,Bouillon cube,コンソメ,Bouillon cube,condiments,piece,false,true,,1
+chicken_stock_powder,Bouillon de poulet en poudre,鶏がらスープの素,Chicken stock powder,condiments,g,false,true,,120
+sesame_oil,Huile de sésame,ごま油,Sesame oil,condiments,ml,false,true,sesame,200
+olive_oil,Huile d'olive,オリーブオイル,Olive oil,condiments,ml,false,true,,500
+salad_oil,Huile neutre,サラダ油,Neutral oil,condiments,ml,false,true,,1000
+mayonnaise,Mayonnaise,マヨネーズ,Mayonnaise,condiments,g,false,true,egg,450
+ketchup,Ketchup,ケチャップ,Ketchup,condiments,g,false,true,,500
+tonkatsu_sauce,Sauce tonkatsu,とんかつソース,Tonkatsu sauce,condiments,ml,false,true,,500
+oyster_sauce,Sauce d'huître,オイスターソース,Oyster sauce,condiments,ml,false,true,,250
+ponzu,Ponzu,ポン酢,Ponzu,condiments,ml,false,true,soy,360
+mentsuyu,Base de bouillon concentrée,めんつゆ,Noodle soup base,condiments,ml,false,true,soy,500
+doubanjiang,Pâte de piment,豆板醤,Chili bean paste,condiments,g,false,true,soy,100
+gochujang,Gochujang,コチュジャン,Gochujang,condiments,g,false,true,soy,200
+curry_roux,Roux de curry,カレールー,Curry roux,condiments,pack,false,true,wheat,1
+tomato_puree,Concentré de tomate,トマトピューレ,Tomato puree,condiments,g,false,true,,200
+honey,Miel,はちみつ,Honey,condiments,g,false,true,,300
+mustard,Moutarde,マスタード,Mustard,condiments,g,false,true,,100
+wasabi,Wasabi,わさび,Wasabi,condiments,g,false,true,,40
+karashi,Moutarde japonaise,からし,Japanese mustard,condiments,g,false,true,,40
+shichimi,Shichimi togarashi,七味唐辛子,Shichimi pepper,condiments,g,false,true,sesame,15
+ichimi,Piment moulu,一味唐辛子,Ground chili,condiments,g,false,true,,15
+sansho,Sansho,山椒,Sansho pepper,condiments,g,false,true,,10
+yuzu_kosho,Yuzu kosho,柚子胡椒,Yuzu kosho,condiments,g,false,true,,50
+rayu,Huile pimentée,ラー油,Chili oil,condiments,ml,false,true,sesame,30
+furikake,Furikake,ふりかけ,Furikake,condiments,g,false,true,sesame,30
+aonori,Aonori,青のり,Aonori,condiments,g,false,true,,10
+basil_dried,Basilic séché,乾燥バジル,Dried basil,condiments,g,false,true,,10
+oregano_dried,Origan séché,オレガノ,Dried oregano,condiments,g,false,true,,10
+paprika_powder,Paprika,パプリカパウダー,Paprika powder,condiments,g,false,true,,20
+cumin,Cumin,クミン,Cumin,condiments,g,false,true,,20
+curry_powder,Curry en poudre,カレー粉,Curry powder,condiments,g,false,true,,50
+balsamic,Vinaigre balsamique,バルサミコ酢,Balsamic vinegar,condiments,ml,false,true,,250
+white_wine,Vin blanc de cuisine,白ワイン,White wine,condiments,ml,false,true,,750

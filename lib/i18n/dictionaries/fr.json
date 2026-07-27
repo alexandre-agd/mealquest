@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "MealQuest"
+  },
+  "home": {
+    "tagline": "Planifiez vos repas de la semaine en quelques minutes.",
+    "status_ok": "Le squelette de l'application fonctionne.",
+    "status_supabase_connected": "Connexion à Supabase établie.",
+    "status_supabase_error": "Connexion à Supabase impossible."
+  }
+}

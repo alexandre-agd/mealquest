@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "MealQuest"
+  },
+  "home": {
+    "tagline": "毎週の献立を数分で計画しましょう。",
+    "status_ok": "アプリの土台は正常に動作しています。",
+    "status_supabase_connected": "Supabaseへの接続が確認できました。",
+    "status_supabase_error": "Supabaseへの接続に失敗しました。"
+  }
+}

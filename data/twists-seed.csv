@@ -1,0 +1,27 @@
+key,ingredient_key,name_fr,name_ja,effect,intensity,max_dose_fr,max_dose_ja,pairs_with,allergen
+twist_shichimi,shichimi,Shichimi togarashi,七味唐辛子,piquant,3,1 pincée,ひとつまみ,soupes;légumes rôtis;nouilles froides;yakitori,sesame
+twist_ichimi,ichimi,Piment moulu,一味唐辛子,piquant,3,1 pincée,ひとつまみ,soupes;sautés;nouilles,
+twist_sansho,sansho,Sansho,山椒,piquant,2,1 pincée,ひとつまみ,poisson grillé;poulet;tofu froid,
+twist_yuzu_kosho,yuzu_kosho,Yuzu kosho,柚子胡椒,piquant,4,1/2 cuillère à café,小さじ1/2,poisson vapeur;poulet;sauces;bento,
+twist_rayu,rayu,Huile pimentée,ラー油,piquant,3,5 gouttes,5滴,tofu;gyoza;soupes;salades chinoises,sesame
+twist_gochujang,gochujang,Gochujang,コチュジャン,piquant,3,1 cuillère à café,小さじ1,tofu sauté;légumes;porc;bibimbap,soy
+twist_ponzu,ponzu,Ponzu,ポン酢,acidite,2,1 cuillère à soupe,大さじ1,concombre;tofu froid;poisson;nabe,soy
+twist_rice_vinegar,rice_vinegar,Vinaigre de riz,米酢,acidite,1,1 cuillère à soupe,大さじ1,pickles minute;riz;salades,
+twist_balsamic,balsamic,Vinaigre balsamique,バルサミコ酢,acidite,2,1 cuillère à café,小さじ1,tomates;oignons rôtis;champignons;bœuf,
+twist_sudachi,sudachi,Sudachi,すだち,acidite,1,quelques gouttes,数滴,poisson;nouilles froides;friture,
+twist_lemon,lemon,Zeste de citron,レモンの皮,acidite,1,1 pincée de zeste,皮少々,poisson;poulet;légumes vapeur;pâtes,
+twist_miso,miso,Miso rouge,赤味噌,umami,3,1 cuillère à café,小さじ1,vinaigrettes;légumes grillés;glaçage,soy
+twist_aonori,aonori,Aonori,青のり,umami,1,1 pincée,ひとつまみ,omelette;pommes de terre;okonomiyaki;onigiri,
+twist_furikake,furikake,Furikake,ふりかけ,umami,2,1 cuillère à café,小さじ1,riz;œufs;légumes vapeur;bento,sesame
+twist_katsuobushi,katsuobushi,Copeaux de bonite,かつお節,umami,2,1 pincée,ひとつまみ,tofu froid;légumes;salades;riz,fish
+twist_parmesan,parmesan,Parmesan,粉チーズ,umami,2,1 cuillère à soupe,大さじ1,pâtes;légumes rôtis;soupes;risotto,milk
+twist_sesame,sesame_seed,Sésame torréfié,いりごま,texture,1,1 cuillère à soupe,大さじ1,salades;riz;tofu;légumes,sesame
+twist_panko,panko,Panko grillé à sec,炒りパン粉,texture,1,1 cuillère à soupe,大さじ1,légumes;poisson;pâtes;gratins,wheat
+twist_almond,almond,Amandes concassées,砕いたアーモンド,texture,1,1 cuillère à soupe,大さじ1,salades;légumes rôtis;nouilles froides,nuts
+twist_walnut,walnut,Noix concassées,砕いたくるみ,texture,1,1 cuillère à soupe,大さじ1,salades;fromage;légumes racines,nuts
+twist_sesame_oil,sesame_oil,Huile de sésame,ごま油,umami,2,1 cuillère à café,小さじ1,légumes vapeur;riz;soupes;salades,sesame
+twist_paprika,paprika_powder,Paprika,パプリカパウダー,umami,2,1/2 cuillère à café,小さじ1/2,poulet;pommes de terre;œufs,
+twist_basil,basil_dried,Basilic séché,乾燥バジル,umami,1,1 pincée,ひとつまみ,tomate;poulet;pâtes;tofu,
+twist_oregano,oregano_dried,Origan séché,オレガノ,umami,1,1 pincée,ひとつまみ,légumes rôtis;tomates;vinaigrettes,
+twist_shiso,shiso,Shiso ciselé,刻み大葉,acidite,2,2 feuilles,2枚,poisson;riz;pâtes froides;tofu,
+twist_ginger,ginger,Gingembre râpé,おろししょうが,piquant,2,1 cuillère à café,小さじ1,poisson;porc;soupes;légumes,
