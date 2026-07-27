@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { resolvePublicOrigin, safeInternalPath } from "@/lib/app-url";
 
 export type AuthState = { error?: string; info?: string };
 
@@ -32,7 +33,7 @@ export async function signInWithPassword(
     return { error: ERROR_INVALID };
   }
 
-  redirect(next.startsWith("/") ? next : "/");
+  redirect(safeInternalPath(next));
 }
 
 export async function signUpWithPassword(
@@ -70,11 +71,9 @@ export async function signInWithGoogle() {
   const supabase = await createClient();
   const headerList = await headers();
 
-  // L'origine est déduite de la requête : la même image Docker fonctionne
-  // en local et derrière le nom de domaine, sans variable supplémentaire.
-  const origin =
-    headerList.get("origin") ??
-    `https://${headerList.get("host") ?? "localhost:3000"}`;
+  // Doit désigner le domaine public, pas l'adresse d'écoute du conteneur :
+  // Supabase renverra le navigateur sur cette URL (voir lib/app-url.ts).
+  const origin = resolvePublicOrigin(headerList);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -82,6 +81,12 @@ export async function signInWithGoogle() {
   });
 
   if (error || !data.url) {
+    console.error(
+      "[auth] démarrage OAuth impossible :",
+      error?.message,
+      "| origine calculée :",
+      origin,
+    );
     redirect("/connexion?erreur=oauth");
   }
 

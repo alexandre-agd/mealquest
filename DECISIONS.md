@@ -205,6 +205,32 @@ Réversible : oui.
 
 ---
 
+## [2026-07-27] Origine publique résolue explicitement, jamais depuis la requête
+
+Contexte : la connexion Google renvoyait le navigateur sur
+`http://0.0.0.0:3000`, injoignable. La route de callback construisait sa
+redirection avec `request.nextUrl.origin`.
+
+Cause : derrière le reverse proxy de Dokploy (Traefik), le serveur Next.js
+écoute sur `0.0.0.0:3000` et ne connaît pas le nom de domaine par lequel on
+l'atteint. `request.nextUrl.origin` et l'en-tête `Host` renvoient l'adresse
+interne du conteneur, pas le domaine public.
+
+Choix : un helper unique `resolvePublicOrigin()` (`lib/app-url.ts`) résout
+l'origine dans cet ordre : variable `APP_URL`, puis en-têtes
+`X-Forwarded-Host` / `X-Forwarded-Proto` posés par le proxy, puis `Host` pour
+le développement local. `APP_URL` est renseignée en production : c'est le seul
+moyen qui ne dépende d'aucune configuration de proxy. Un second helper,
+`safeInternalPath()`, empêche une redirection ouverte vers un domaine tiers
+via le paramètre `?suite=`.
+
+Couvert par `tests/app-url.test.ts`, dont un cas vérifie explicitement que
+`0.0.0.0` ne peut plus ressortir.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-27] Version de npm épinglée dans le Dockerfile
 
 Contexte : le build Dokploy a échoué deux fois sur `npm ci`, avec des paquets

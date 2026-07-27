@@ -8,6 +8,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // Doit précéder l'alias "@" : sinon "server-only" reste non résolu.
+      "server-only": path.resolve(__dirname, "tests/stubs/server-only.ts"),
       "@": path.resolve(__dirname, "."),
     },
   },

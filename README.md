@@ -121,7 +121,11 @@ L'app se déploie comme un conteneur Docker classique. Dans Dokploy :
    ```
    SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
    SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e
+   APP_URL=https://mealquest.agdevelopment.co
    ```
+   `APP_URL` est indispensable derrière le proxy : le conteneur écoute sur
+   `0.0.0.0:3000` et ne peut pas deviner le nom de domaine. Sans elle, la
+   connexion Google renvoie le navigateur sur une adresse injoignable.
 3. **Port** : le conteneur écoute sur `3000` (`EXPOSE 3000` dans le
    Dockerfile).
 4. **Domain** : ajoute ton nom de domaine dans l'onglet Domains de Dokploy,
