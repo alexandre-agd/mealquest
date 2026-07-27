@@ -252,6 +252,75 @@ Réversible : oui, décision de suivi, pas un choix d'architecture.
 
 ---
 
+## [2026-07-27] Isolation par foyer : RLS Postgres, pas de filtre applicatif
+
+Contexte : RG-63 et A1.12 exigent que les données d'un foyer soient
+inaccessibles à un autre compte, « vérifié au niveau des données et pas
+seulement de l'interface ».
+
+Choix : chaque table porte une politique RLS adossée à une fonction
+`current_household_id()` (SECURITY DEFINER) qui lit le rattachement du compte
+dans `profiles`. Le code applicatif ne filtre **jamais** par `household_id` :
+une requête forgée à la main ne franchit pas la frontière. La création du
+foyer passe par une RPC atomique `create_household()` plutôt que par des
+politiques d'insertion permissives sur `households` et `profiles`.
+
+Vérification : test SQL en transaction annulée, deux foyers, impersonation du
+rôle `authenticated`. Le compte A voit 1 foyer / 1 membre / 1 matériel, et
+0 ligne du foyer B sur toutes les tables. Le référentiel commun reste lisible.
+
+Réversible : oui, mais aucune raison de revenir en arrière.
+
+---
+
+## [2026-07-27] Clé API du modèle chiffrée dans Supabase Vault
+
+Contexte : C4 — la clé est saisie par l'utilisateur, jamais en dur. Elle ne
+doit pas être lisible en clair par simple lecture de table.
+
+Choix : `set_household_ai_config()` stocke la clé dans Vault et ne conserve
+dans `households` que l'identifiant du secret. L'écran de paramètres n'affiche
+jamais la clé, seulement un état « enregistrée / non enregistrée », et
+propose de la remplacer ou de la supprimer.
+
+Vérification : après enregistrement, aucune occurrence de la clé en clair
+dans `households` ; le déchiffrement n'aboutit que depuis un rôle privilégié.
+
+Réversible : oui.
+
+---
+
+## [2026-07-27] Ordre des membres : colonne `position`, pas `created_at`
+
+Contexte : les membres d'un foyer sont créés dans une seule transaction.
+`now()` renvoyant l'heure de début de transaction, `created_at` est
+rigoureusement identique pour tous. Constaté en recette : le deuxième membre
+saisi s'affichait en premier, de façon non déterministe.
+
+Choix : colonne `position` renseignée par l'ordre de saisie, plus un trigger
+qui place en fin de liste tout membre ajouté après coup.
+
+Réversible : oui.
+
+---
+
+## [2026-07-27] Le référentiel d'ingrédients est importé dès le lot 1
+
+Contexte : le backlog place l'import au lot 3, mais le lot 1 doit livrer les
+dégoûts alimentaires (`docs/07`, contenu du lot 1), qui référencent des
+ingrédients. Sans référentiel, l'écran serait vide.
+
+Choix : import des 170 entrées de `data/ingredients-seed.csv` au lot 1, avec
+les contrôles d'intégrité prévus par `docs/08` (clés uniques, pas de ligne
+à la fois périssable et staple, catégories et allergènes dans les listes
+fermées, trois noms renseignés) : **aucune anomalie**. Le lot 3 conserve son
+objet propre : l'écran d'inventaire, le tri par fréquence, la recherche et
+l'ajout d'ingrédient personnalisé.
+
+Réversible : sans objet.
+
+---
+
 ## [2026-07-27] Placeholder `lang="fr"` sur `<html>`
 
 Contexte : au lot 0, il n'existe encore aucune session utilisateur ni membre

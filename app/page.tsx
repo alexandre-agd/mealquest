@@ -1,53 +1,54 @@
-import { getDictionary, locales } from "@/lib/i18n";
-import { createClient } from "@/lib/supabase/server";
-
-async function checkSupabaseConnection(): Promise<boolean> {
-  try {
-    const supabase = await createClient();
-    const { error } = await supabase.auth.getUser();
-    // "Auth session missing" est attendu tant que personne n'est connecté :
-    // ça prouve que la requête a bien atteint le projet Supabase.
-    if (error && error.name !== "AuthSessionMissingError") {
-      console.error("[supabase] échec de la vérification :", error.message);
-      return false;
-    }
-    return true;
-  } catch (err) {
-    // Cause la plus probable : configuration absente de l'environnement.
-    console.error("[supabase] échec de la vérification :", err);
-    return false;
-  }
-}
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getCurrentDictionary } from "@/lib/i18n/server";
+import { getCurrentHousehold, getCurrentMember } from "@/lib/household/queries";
+import { interpolate } from "@/lib/i18n";
+import { Card } from "@/components/ui";
 
 export default async function Home() {
-  const supabaseOk = await checkSupabaseConnection();
+  const household = await getCurrentHousehold();
+
+  // Compte connecté mais sans foyer : on l'envoie configurer le sien.
+  if (!household) redirect("/bienvenue");
+
+  const { t } = await getCurrentDictionary();
+  const member = await getCurrentMember();
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center gap-8 px-6 py-16 text-center">
-      <h1 className="text-3xl font-semibold">MealQuest</h1>
+    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 px-6 py-8">
+      <header className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">
+            {member
+              ? interpolate(t.home.greeting, { name: member.name })
+              : t.app.name}
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            {interpolate(t.home.household_of, { name: household.name })}
+          </p>
+        </div>
+        <Link
+          href="/parametres"
+          className="rounded-full border border-border bg-surface px-4 py-2 text-sm"
+        >
+          {t.nav.settings}
+        </Link>
+      </header>
 
-      <div className="flex flex-col gap-2">
-        {locales.map((locale) => {
-          const dict = getDictionary(locale);
-          return (
-            <p key={locale} lang={locale} className="text-base">
-              {dict.home.tagline}
-            </p>
-          );
-        })}
-      </div>
+      <Card className="flex items-baseline justify-between">
+        <div>
+          <p className="text-sm text-muted">{t.household.budget}</p>
+          <p className="mt-1 text-xs text-muted">{t.household.budget_explain}</p>
+        </div>
+        <p className="text-2xl font-semibold tabular-nums">
+          {household.pointsBudget}
+          <span className="ml-1 text-sm font-normal text-muted">
+            {t.household.budget_unit}
+          </span>
+        </p>
+      </Card>
 
-      <p
-        className={`text-sm ${supabaseOk ? "text-green-700" : "text-red-700"}`}
-      >
-        {supabaseOk
-          ? getDictionary("fr").home.status_supabase_connected
-          : getDictionary("fr").home.status_supabase_error}
-      </p>
-
-      <p className="text-xs text-neutral-500">
-        {getDictionary("fr").home.status_ok} — Lot 0
-      </p>
+      <p className="text-sm text-muted">{t.home.lot_notice}</p>
     </main>
   );
 }
