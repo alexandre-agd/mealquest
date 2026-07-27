@@ -111,6 +111,39 @@ sur tout hébergeur Docker.
 
 ---
 
+## [2026-07-27] Configuration Supabase lue au runtime, sans préfixe NEXT_PUBLIC_
+
+Contexte : au premier déploiement Dokploy, l'application affichait « Connexion
+à Supabase impossible » alors que les variables étaient correctement
+renseignées dans l'interface. Cause : Next.js **remplace en dur** les
+variables préfixées `NEXT_PUBLIC_` par leur valeur littérale au moment du
+`next build`, y compris dans le code serveur. Dokploy fournit ses variables
+au runtime du conteneur, pas au build : elles ont donc été figées à chaîne
+vide dans l'image.
+
+Choix : les variables deviennent `SUPABASE_URL` et `SUPABASE_ANON_KEY`, sans
+préfixe, lues au runtime côté serveur via `lib/supabase/config.ts`. L'image
+Docker ne contient plus aucune configuration : la même image peut tourner en
+local, en préproduction ou en production. Le `Dockerfile` n'a plus besoin de
+build args.
+
+Conséquence pour le navigateur : le client Supabase côté client
+(`lib/supabase/client.ts`) ne peut plus lire la config depuis `process.env`.
+Elle lui sera transmise explicitement par un composant serveur (provider
+React) au lot 1, quand le premier écran d'authentification en aura besoin.
+
+Alternative écartée : passer les valeurs comme build args Docker. Fonctionne,
+mais fige la configuration dans l'image (reconstruction nécessaire pour
+changer une URL) et dépend d'un champ « Build Args » dans l'interface de
+l'hébergeur.
+
+Vérification : build effectué sans aucune variable d'environnement, puis
+conteneur démarré avec les variables au runtime — la connexion s'établit.
+
+Réversible : oui.
+
+---
+
 ## [2026-07-27] Internationalisation : dictionnaires statiques fr/ja, pas de routing par locale
 
 Contexte : C1 — chaque utilisateur voit l'interface **et** le contenu généré

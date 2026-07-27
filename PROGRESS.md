@@ -25,6 +25,10 @@
   vérifié (`npm run build` produit bien `.next/standalone/server.js`). Le
   build Docker complet n'a pas pu être testé localement (Docker non installé
   sur la machine de dev) ; premier test réel au déploiement Dokploy.
+- Déploiement Dokploy opérationnel sur https://mealquest.agdevelopment.co
+  après deux correctifs : régénération du `package-lock.json` (`npm ci`
+  échouait sur Alpine) et passage de la configuration Supabase en lecture
+  runtime sans préfixe `NEXT_PUBLIC_` (voir `DECISIONS.md`).
 
 ### Objectifs du lot 0 (docs/07-backlog-batchs.md)
 

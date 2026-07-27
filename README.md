@@ -50,9 +50,13 @@ cp .env.example .env.local
 Puis renseignez :
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<clé publishable du projet Supabase "mealquest">
+SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
+SUPABASE_ANON_KEY=<clé publishable du projet Supabase "mealquest">
 ```
+
+Ces variables sont volontairement **sans préfixe `NEXT_PUBLIC_`** : elles
+sont lues au runtime par le serveur, pas figées dans le build. Voir
+`lib/supabase/config.ts` et `DECISIONS.md`.
 
 La clé publishable (pas secrète, utilisable côté navigateur) se trouve dans
 le dashboard Supabase du projet : Project Settings → API.
@@ -99,12 +103,11 @@ L'app se déploie comme un conteneur Docker classique. Dans Dokploy :
 1. **Create Application → Docker** (ou "Dockerfile"), pointe sur ce dépôt
    git et la branche `main`. Dockerfile à la racine, rien à changer côté
    build command : Dokploy lit le `Dockerfile`.
-2. **Build Args** (pas seulement "Environment Variables" — ces deux
-   variables doivent être disponibles *au moment du build*, car Next.js les
-   inline dans le bundle envoyé au navigateur) :
+2. **Environment** (variables de runtime classiques, aucun build arg
+   nécessaire — l'image ne contient aucune configuration) :
    ```
-   NEXT_PUBLIC_SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e
+   SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
+   SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e
    ```
 3. **Port** : le conteneur écoute sur `3000` (`EXPOSE 3000` dans le
    Dockerfile).
@@ -123,11 +126,11 @@ installé, ce qui n'est pas le cas sur cette machine de dev au moment de la
 rédaction de ce README) :
 
 ```bash
-docker build \
-  --build-arg NEXT_PUBLIC_SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co \
-  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e \
-  -t mealquest .
-docker run -p 3000:3000 mealquest
+docker build -t mealquest .
+docker run -p 3000:3000 \
+  -e SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co \
+  -e SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e \
+  mealquest
 ```
 
 ---

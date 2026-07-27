@@ -2,28 +2,19 @@ import { getDictionary, locales } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/server";
 
 async function checkSupabaseConnection(): Promise<boolean> {
-  // Diagnostic temporaire (lot 0) : les variables d'env sont-elles bien
-  // présentes dans le conteneur au runtime ?
-  console.log("[supabase-check] NEXT_PUBLIC_SUPABASE_URL =", process.env.NEXT_PUBLIC_SUPABASE_URL);
-  console.log(
-    "[supabase-check] NEXT_PUBLIC_SUPABASE_ANON_KEY présent =",
-    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
-    "longueur =",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length,
-  );
-
   try {
     const supabase = await createClient();
     const { error } = await supabase.auth.getUser();
     // "Auth session missing" est attendu tant que personne n'est connecté :
     // ça prouve que la requête a bien atteint le projet Supabase.
     if (error && error.name !== "AuthSessionMissingError") {
-      console.error("[supabase-check] erreur auth.getUser() :", error.name, error.message);
+      console.error("[supabase] échec de la vérification :", error.message);
       return false;
     }
     return true;
   } catch (err) {
-    console.error("[supabase-check] exception :", err);
+    // Cause la plus probable : configuration absente de l'environnement.
+    console.error("[supabase] échec de la vérification :", err);
     return false;
   }
 }
