@@ -15,7 +15,8 @@ côté métier pour l'instant. Voir `PROGRESS.md`.
 - Next.js 16 (App Router) + TypeScript + Tailwind CSS v4
 - Supabase (Postgres, Auth, Realtime) — projet `mealquest`, région Tokyo
 - Vitest pour les tests
-- Déploiement visé : Vercel (app) + Supabase (données)
+- Déploiement : conteneur Docker (`output: "standalone"`) sur Dokploy
+  (VPS Hostinger existant) + Supabase (données)
 
 ---
 
@@ -91,6 +92,46 @@ npm run start
 
 ---
 
+## Déployer sur Dokploy
+
+L'app se déploie comme un conteneur Docker classique. Dans Dokploy :
+
+1. **Create Application → Docker** (ou "Dockerfile"), pointe sur ce dépôt
+   git et la branche `main`. Dockerfile à la racine, rien à changer côté
+   build command : Dokploy lit le `Dockerfile`.
+2. **Build Args** (pas seulement "Environment Variables" — ces deux
+   variables doivent être disponibles *au moment du build*, car Next.js les
+   inline dans le bundle envoyé au navigateur) :
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e
+   ```
+3. **Port** : le conteneur écoute sur `3000` (`EXPOSE 3000` dans le
+   Dockerfile).
+4. **Domain** : ajoute ton nom de domaine dans l'onglet Domains de Dokploy,
+   Dokploy gère le certificat HTTPS (Let's Encrypt via Traefik).
+5. **Deploy**.
+
+Une fois le domaine connu, mets-le à jour à deux endroits :
+- Google Cloud Console → Credentials → ton client OAuth →
+  *Authorized JavaScript origins*
+- Supabase → Authentication → URL Configuration → *Site URL* et
+  *Redirect URLs* (`https://tondomaine.tld/**`)
+
+Pour tester le build Docker en local avant de pousser (nécessite Docker
+installé, ce qui n'est pas le cas sur cette machine de dev au moment de la
+rédaction de ce README) :
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_SUPABASE_URL=https://ewcwyiqbpowluovtuifi.supabase.co \
+  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_pnopecUxQO-pMY0RBWztaw_H6Vpaa7e \
+  -t mealquest .
+docker run -p 3000:3000 mealquest
+```
+
+---
+
 ## Installer sur l'écran d'accueil d'un iPhone (C2)
 
 Une fois l'application déployée (ou testée sur le réseau local depuis un
@@ -101,16 +142,15 @@ passage par l'App Store.
 
 ## Ce qui reste à faire avant le lot 1
 
-- Activer le provider Google dans Supabase Auth (Authentication → Providers →
-  Google), ce qui demande de créer un client OAuth côté Google Cloud Console.
-  C'est une action MOA, pas automatisable depuis ce dépôt.
-- Déployer sur Vercel et y reporter les mêmes variables d'environnement.
+- Configurer l'application dans Dokploy (voir section ci-dessus) et brancher
+  le nom de domaine — action MOA, pas automatisable depuis ce dépôt.
 
 ---
 
 ## Structure du projet
 
 ```
+Dockerfile               Build de production, déploiement Dokploy
 app/                    Routes Next.js (App Router)
 lib/
   config/                Constantes métier centralisées (RG chiffrées)

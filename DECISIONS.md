@@ -80,6 +80,37 @@ Réversible : oui, Next.js ne verrouille pas à Vercel.
 
 ---
 
+## [2026-07-27] Hébergement (bascule) : Dokploy sur le VPS Hostinger existant
+
+Contexte : la MOA possède déjà un serveur Hostinger avec Dokploy installé,
+utilisé pour d'autres projets, et veut un nom de domaine personnalisé géré
+directement dessus plutôt que de dépendre d'un service tiers supplémentaire.
+Le nom de domaine n'est pas un argument technique en soi (Vercel Hobby
+supporte aussi les domaines personnalisés gratuitement), mais consolider
+l'infra sur un serveur déjà payé et déjà maîtrisé par la MOA est cohérent
+avec C5 (coût marginal nul) et évite une dépendance externe de plus.
+
+Choix : abandon de Vercel, déploiement du conteneur Docker de l'app sur
+Dokploy. `next.config.ts` passe en `output: "standalone"` (build vérifié en
+local). Un `Dockerfile` multi-stage (deps → build → runtime Node minimal,
+utilisateur non-root) est ajouté à la racine. Les variables
+`NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` doivent être
+fournies comme **build args** Docker (elles sont inlinées dans le bundle
+client au moment du build, pas seulement au runtime) — configuration à faire
+côté Dokploy, hors de portée de ce dépôt.
+
+Le projet Vercel existant (`mealquest-bice.vercel.app`) n'est pas supprimé
+automatiquement ; la MOA décide si elle le désactive.
+
+Alternatives écartées : garder Vercel + domaine personnalisé pointé dessus —
+plus simple mais laisse une dépendance externe alors que l'infra Dokploy
+existe déjà.
+
+Réversible : oui, `output: "standalone"` fonctionne aussi bien sur Vercel que
+sur tout hébergeur Docker.
+
+---
+
 ## [2026-07-27] Internationalisation : dictionnaires statiques fr/ja, pas de routing par locale
 
 Contexte : C1 — chaque utilisateur voit l'interface **et** le contenu généré
