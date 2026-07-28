@@ -200,7 +200,8 @@
     "week": "献立表",
     "fridge": "冷蔵庫",
     "booster": "ブースター",
-    "planning": "今週の献立"
+    "planning": "今週の献立",
+    "shopping": "買い物リスト"
   },
   "home": {
     "greeting": "こんにちは、{name}さん",
@@ -209,7 +210,8 @@
     "week_hint": "だれが、いつ、家で食べるかを入力します。",
     "fridge_hint": "冷蔵庫に残っているもの。",
     "booster_hint": "今週のレシピを生成します。",
-    "planning_hint": "各枠に入っている料理です。"
+    "planning_hint": "各枠に入っている料理です。",
+    "shopping_hint": "二人で買い物ができるよう、両方の言語を並べて表示しています。"
   },
   "inventory": {
     "title": "冷蔵庫",
@@ -348,5 +350,18 @@
     "steps_mismatch": "手順の数を両方の言語でそろえてください。",
     "in_french": "フランス語",
     "in_japanese": "日本語"
+  },
+  "shopping": {
+    "title": "買い物リスト",
+    "to_buy": "買うもの",
+    "probably_enough": "たぶん足ります",
+    "pantry": "戸棚を確認",
+    "free_lines": "自分で追加したもの",
+    "add_placeholder": "リストに追加",
+    "add": "追加",
+    "empty": "いまは買うものがありません。",
+    "empty_hint": "先に1週間の献立を組んでください。",
+    "remaining": "残り {count} 点",
+    "bilingual_note": "二人で買い物ができるよう、両方の言語を並べて表示しています。"
   }
 }

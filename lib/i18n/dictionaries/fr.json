@@ -200,7 +200,8 @@
     "week": "Semainier",
     "fridge": "Frigo",
     "booster": "Booster",
-    "planning": "Semaine planifiée"
+    "planning": "Semaine planifiée",
+    "shopping": "Courses"
   },
   "home": {
     "greeting": "Bonjour {name}",
@@ -209,7 +210,8 @@
     "week_hint": "Qui mange quoi, et quand.",
     "fridge_hint": "Ce qu'il reste dans le frigo.",
     "booster_hint": "Générer les recettes de la semaine.",
-    "planning_hint": "Ce qui est posé sur vos créneaux."
+    "planning_hint": "Ce qui est posé sur vos créneaux.",
+    "shopping_hint": "Les deux langues sont affichées ensemble, pour faire les courses à deux."
   },
   "inventory": {
     "title": "Frigo",
@@ -348,5 +350,18 @@
     "steps_mismatch": "Le nombre d'étapes doit être le même dans les deux langues.",
     "in_french": "En français",
     "in_japanese": "En japonais"
+  },
+  "shopping": {
+    "title": "Courses",
+    "to_buy": "À acheter",
+    "probably_enough": "Probablement suffisant",
+    "pantry": "À vérifier dans le placard",
+    "free_lines": "Ajouté à la main",
+    "add_placeholder": "Ajouter à la liste",
+    "add": "Ajouter",
+    "empty": "Rien à acheter pour le moment.",
+    "empty_hint": "Planifiez d'abord votre semaine.",
+    "remaining": "{count} articles restants",
+    "bilingual_note": "Les deux langues sont affichées ensemble, pour faire les courses à deux."
   }
 }

@@ -73,6 +73,14 @@ export default async function Home() {
       </Link>
 
       <Link
+        href="/courses"
+        className="rounded-2xl border border-border bg-surface p-5 text-left transition-colors hover:border-accent"
+      >
+        <p className="font-medium">{t.shopping.title}</p>
+        <p className="mt-1 text-sm text-muted">{t.home.shopping_hint}</p>
+      </Link>
+
+      <Link
         href="/booster"
         className="rounded-2xl border border-accent bg-surface p-5 text-left transition-colors"
       >
