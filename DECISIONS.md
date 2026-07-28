@@ -205,6 +205,52 @@ Réversible : oui.
 
 ---
 
+## [2026-07-28] Le budget de points est proportionné, pas découpé
+
+Contexte : retour de la MOA après la première génération réelle. Une semaine
+de quatre dîners affichait toujours 30 points, un plafond hors d'atteinte qui
+ne disait plus rien.
+
+Objection légitime de la MOA : le budget hebdomadaire n'est pas un détail de
+calcul, c'est la mécanique elle-même. Un plat généreux un soir se rattrape un
+autre jour, ce qui n'existe qu'avec une enveloppe commune.
+
+Choix : les deux idées ne s'opposent pas. L'enveloppe reste **hebdomadaire et
+commune** — rien n'est réservé à un repas précis — seule sa **taille** suit le
+nombre de repas réellement prévus, les valeurs de RG-08 valant pour une
+semaine pleine de sept dîners. Les déjeuners autonomes comptent : ils
+demandent leur propre carte, donc leurs propres points.
+
+Alternative écartée : un budget par repas. Simple, mais il supprimerait
+justement la compensation entre les jours, c'est-à-dire l'intérêt du système.
+
+RG-08 est enrichie plutôt que remplacée : ses valeurs restent la référence.
+
+Réversible : oui, `FULL_WEEK_MEALS` est une constante centralisée.
+
+---
+
+## [2026-07-28] Une action invisible est une action ratée
+
+Contexte : la MOA signale que « Placer sur le semainier » ne fait rien.
+Vérification en base : l'action fonctionnait parfaitement — quatre cartes
+planifiées, six créneaux remplis, versos compris.
+
+Le défaut n'était pas dans l'écriture mais dans l'absence de restitution :
+aucun écran n'affichait le planning. L'utilisateur cliquait, la base était
+mise à jour, et rien ne bougeait devant lui.
+
+Choix : ajout d'un écran `/planning` qui montre la semaine créneau par
+créneau. Un bento y porte le titre de son verso et non celui du dîner : c'est
+un autre repas, avec ses propres étapes (RG-21).
+
+Leçon retenue pour la suite : ne pas livrer une action d'écriture sans l'écran
+qui en montre le résultat. Le fait que la donnée soit juste ne suffit pas.
+
+Réversible : sans objet.
+
+---
+
 ## [2026-07-28] Le moteur de génération est validé par du code, pas par confiance
 
 Contexte : docs/05 fixe dix contraintes de sortie (S1 à S10). Le risque

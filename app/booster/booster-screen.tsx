@@ -7,6 +7,7 @@ import { interpolate, lookup, type Dictionary, type Locale } from "@/lib/i18n";
 import type { Card } from "@/lib/cards/queries";
 import { runBooster, type BoosterResult } from "./actions";
 import { assignCards, type PlanResult } from "./plan-actions";
+import { ManualCardForm, type IngredientChoice } from "./manual-card-form";
 
 export function BoosterScreen({
   t,
@@ -17,6 +18,7 @@ export function BoosterScreen({
   pointsBudget,
   mealsPlanned,
   hasKey,
+  ingredientChoices,
 }: {
   t: Dictionary;
   locale: Locale;
@@ -26,6 +28,7 @@ export function BoosterScreen({
   pointsBudget: number;
   mealsPlanned: number;
   hasKey: boolean;
+  ingredientChoices: IngredientChoice[];
 }) {
   const [pending, startTransition] = useTransition();
   const [result, setResult] = useState<BoosterResult | null>(null);
@@ -35,6 +38,7 @@ export function BoosterScreen({
   const [preview, setPreview] = useState<Card | null>(null);
   const [saving, startSaving] = useTransition();
   const [planResult, setPlanResult] = useState<PlanResult | null>(null);
+  const [manualOpen, setManualOpen] = useState(false);
 
   const ja = locale === "ja";
   const title = (card: Card) => (ja ? card.title_ja : card.title_fr);
@@ -137,6 +141,10 @@ export function BoosterScreen({
           : cards.length > 0
             ? t.booster.regenerate
             : t.booster.generate}
+      </Button>
+
+      <Button variant="secondary" onClick={() => setManualOpen(true)}>
+        {t.manual.open}
       </Button>
 
       {cards.length === 0 ? (
@@ -246,6 +254,16 @@ export function BoosterScreen({
           </div>
         </>
       )}
+
+      {manualOpen ? (
+        <ManualCardForm
+          t={t}
+          locale={locale}
+          weekStart={weekStart}
+          ingredients={ingredientChoices}
+          onDone={() => setManualOpen(false)}
+        />
+      ) : null}
 
       {preview ? (
         <RecipePreview t={t} locale={locale} card={preview} onClose={() => setPreview(null)} />

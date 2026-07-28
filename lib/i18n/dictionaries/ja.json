@@ -327,5 +327,26 @@
     "to_fill": "未定",
     "no_need": "用意なし",
     "empty_needs": "食事が必要なのに未定の枠が {count} 件あります。"
+  },
+  "manual": {
+    "title": "手動でカードを作る",
+    "help": "APIキーがないときや生成に失敗したときは、ご自分でレシピを登録できます。ご家族のもう一人も読めるように、両方の言語が必要です。",
+    "open": "手動でカードを作る",
+    "card_title": "料理名",
+    "description": "ひとことの説明",
+    "steps": "作り方（1行に1手順）",
+    "cuisine": "ジャンル",
+    "points": "ポイント",
+    "minutes": "調理時間（分）",
+    "portions": "人数",
+    "ingredients": "材料",
+    "add_ingredient": "追加",
+    "search_ingredient": "食材をさがす",
+    "quantity": "分量",
+    "create": "カードを作る",
+    "created": "カードを作成しました。",
+    "steps_mismatch": "手順の数を両方の言語でそろえてください。",
+    "in_french": "フランス語",
+    "in_japanese": "日本語"
   }
 }

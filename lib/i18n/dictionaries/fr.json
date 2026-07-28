@@ -327,5 +327,26 @@
     "to_fill": "À remplir",
     "no_need": "Rien à prévoir",
     "empty_needs": "{count} créneaux ont un besoin mais restent vides."
+  },
+  "manual": {
+    "title": "Créer une carte à la main",
+    "help": "Sans clé, ou si la génération échoue, vous pouvez composer une recette vous-même. Les deux langues sont nécessaires : l'autre membre du foyer doit pouvoir la lire.",
+    "open": "Créer une carte à la main",
+    "card_title": "Titre",
+    "description": "Description en une phrase",
+    "steps": "Étapes, une par ligne",
+    "cuisine": "Cuisine",
+    "points": "Points",
+    "minutes": "Temps de préparation (minutes)",
+    "portions": "Portions",
+    "ingredients": "Ingrédients",
+    "add_ingredient": "Ajouter",
+    "search_ingredient": "Chercher un ingrédient",
+    "quantity": "Quantité",
+    "create": "Créer la carte",
+    "created": "Carte créée.",
+    "steps_mismatch": "Le nombre d'étapes doit être le même dans les deux langues.",
+    "in_french": "En français",
+    "in_japanese": "En japonais"
   }
 }

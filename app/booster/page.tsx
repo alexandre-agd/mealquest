@@ -7,6 +7,7 @@ import { loadAvailabilities } from "@/lib/week/queries";
 import { computeWeekNeeds } from "@/lib/week/needs";
 import { computeAdjustedPointsBudget } from "@/lib/household/budget";
 import { currentWeekStart, startOfWeek } from "@/lib/week/dates";
+import { createClient } from "@/lib/supabase/server";
 import { BoosterScreen } from "./booster-screen";
 
 export default async function BoosterPage({
@@ -24,9 +25,14 @@ export default async function BoosterPage({
     ? startOfWeek(semaine!)
     : currentWeekStart();
 
-  const [cards, availabilities] = await Promise.all([
+  const supabase = await createClient();
+  const [cards, availabilities, { data: ingredientRows }] = await Promise.all([
     loadCardsForWeek(weekStart),
     loadAvailabilities(weekStart),
+    supabase
+      .from("ingredients")
+      .select("id, name_fr, name_ja, default_unit")
+      .order("name_fr"),
   ]);
 
   const needs = computeWeekNeeds(
@@ -69,6 +75,7 @@ export default async function BoosterPage({
         pointsBudget={pointsBudget}
         mealsPlanned={mealsPlanned}
         hasKey={household.has_ai_key}
+        ingredientChoices={ingredientRows ?? []}
       />
     </main>
   );
