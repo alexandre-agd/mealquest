@@ -211,7 +211,11 @@
     "fridge_hint": "Ce qu'il reste dans le frigo.",
     "booster_hint": "Générer les recettes de la semaine.",
     "planning_hint": "Ce qui est posé sur vos créneaux.",
-    "shopping_hint": "Les deux langues sont affichées ensemble, pour faire les courses à deux."
+    "shopping_hint": "Les deux langues sont affichées ensemble, pour faire les courses à deux.",
+    "tonight": "Ce soir",
+    "tomorrow_lunch": "Demain midi",
+    "nothing_planned": "Rien de prévu",
+    "see_recipe": "Voir la recette"
   },
   "inventory": {
     "title": "Frigo",
@@ -363,5 +367,16 @@
     "empty_hint": "Planifiez d'abord votre semaine.",
     "remaining": "{count} articles restants",
     "bilingual_note": "Les deux langues sont affichées ensemble, pour faire les courses à deux."
+  },
+  "recipe": {
+    "title": "Recette",
+    "for_slot": "Pour ce repas",
+    "ingredients": "Ingrédients",
+    "steps": "Préparation",
+    "cooked": "J'ai cuisiné",
+    "cooked_done": "Ajouté à la collection",
+    "verso_title": "Le lendemain midi",
+    "screen_awake": "L'écran reste allumé pendant la lecture.",
+    "adjusted": "Quantités pour {count} portions"
   }
 }

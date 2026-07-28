@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { Card as Panel, ErrorText } from "@/components/ui";
 import { interpolate, lookup, type Dictionary, type Locale } from "@/lib/i18n";
 import { dayOfMonth, weekdayLabel, type IsoDate } from "@/lib/week/dates";
@@ -85,14 +86,24 @@ export function PlanningGrid({
                         {interpolate(t.booster.portions, { count: placed.portions })} ·{" "}
                         {placed.points} pt
                       </p>
-                      <button
-                        type="button"
-                        disabled={pending}
-                        onClick={() => run(() => clearSlot(placed.id))}
-                        className="mt-1.5 text-xs text-muted underline underline-offset-4"
-                      >
-                        {t.common.delete}
-                      </button>
+                      <div className="mt-1.5 flex items-center gap-3">
+                        {placed.cardId ? (
+                          <Link
+                            href={`/recette/${placed.id}`}
+                            className="text-xs font-medium text-accent underline underline-offset-4"
+                          >
+                            {t.recipe.title}
+                          </Link>
+                        ) : null}
+                        <button
+                          type="button"
+                          disabled={pending}
+                          onClick={() => run(() => clearSlot(placed.id))}
+                          className="text-xs text-muted underline underline-offset-4"
+                        >
+                          {t.common.delete}
+                        </button>
+                      </div>
                     </Panel>
                   );
                 }

@@ -287,3 +287,67 @@ protéger.
 ### Prochaine étape
 Lot 4b — booster, sélection dans la main, affectation au planning, cartes
 neutres, compteur de points, création manuelle de carte.
+
+---
+
+## Lot 5 — Courses, recette, cuisiner — TERMINÉ (2026-07-28)
+
+**Fin de la V1.**
+
+### Ce qui marche
+- **Liste de courses** calculée selon RG-47 : quantités ajustées aux portions
+  réelles du créneau, agrégation par ingrédient, niveau 2 ou 3 exclu, niveau 1
+  selon le nombre d'usages, staples renvoyés au placard sans quantité.
+- **Groupée par rayon** dans l'ordre d'un parcours de supermarché japonais.
+- **Bilingue simultané** : le seul écran où les deux langues cohabitent.
+- **Cases cochables partagées** entre les membres par Realtime, avec mise à
+  jour optimiste.
+- **Lignes libres** ajoutables et supprimables.
+- **Écran recette** pensé pour la cuisine : texte large, étapes cochables une
+  par une, écran maintenu allumé, quantités aux portions du créneau.
+- **Bouton « J'ai cuisiné »** : le créneau passe à cuisiné, la carte entre
+  dans la collection.
+- **Accueil** qui répond à « on mange quoi ce soir » sans navigation, avec le
+  lunch du lendemain et l'accès direct à la recette.
+- 149 tests, dont 21 sur le calcul de la liste.
+
+### Critères d'acceptation (docs/06)
+
+| # | Critère | Résultat |
+|---|---|---|
+| A5.1 | Liste générée automatiquement | **OK** — recalculée à chaque affichage |
+| A5.2 | Niveau 2 ou 3 non acheté | **OK** |
+| A5.3 | Niveau 1 utilisé une fois → « probablement suffisant » | **OK** |
+| A5.4 | Niveau 1 utilisé deux fois → acheté | **OK** |
+| A5.5 | Staples au placard, sans quantité | **OK** |
+| A5.6 | Groupé par rayon, ordre du magasin | **OK** |
+| A5.7 | Français et japonais simultanés | **OK** |
+| A5.8 | Quantités chiffrées avec unité de magasin | **OK** |
+| A5.9 | Case cochée visible sur l'autre téléphone | **À VÉRIFIER PAR LA MOA** — Realtime en place, demande deux appareils |
+| A5.10 | Ligne libre ajoutable | **OK** |
+| A5.11 | Écran recette complet (RG-53) | **OK** |
+| A5.12 | Quantités aux portions réelles du créneau | **OK** |
+| A5.13 | Écran qui ne s'éteint pas | **OK sous réserve** — Wake Lock demandé ; non supporté par tous les navigateurs iOS |
+| A5.14 | Étapes cochables une par une | **OK** |
+| A5.15 | Bouton « cuisiné » → collection | **OK** |
+| A5.16 | Accueil répond sans navigation | **OK** |
+| A5.17 | Aucune calorie ni jugement | **OK** — aucun de ces termes dans les dictionnaires |
+
+### Limites connues
+- **Cochage partagé non éprouvé** : le canal Realtime est ouvert et les tables
+  publiées, mais le comportement à deux téléphones sur réseau instable n'a pas
+  été observé.
+- **Wake Lock** : l'API n'est pas disponible partout, notamment sur d'anciennes
+  versions de Safari iOS. Son absence est sans conséquence, la recette reste
+  lisible, mais l'écran peut s'éteindre.
+- **Les étapes cochées ne sont pas persistées** : elles servent à suivre la
+  progression pendant qu'on cuisine et repartent à zéro au rechargement.
+- **La notation d'une carte cuisinée** relève du lot 6 (V2), comme prévu.
+
+### Recette finale de la V1 (docs/06)
+Les quatre points se vérifient en conditions réelles, pas ici :
+1. Une semaine planifiée de bout en bout à deux, en moins de 3 minutes.
+2. La liste de courses utilisée telle quelle dans un vrai supermarché.
+3. Au moins 4 recettes générées réellement cuisinées.
+4. **L'utilisatrice japonaise utilise l'application seule et juge le japonais
+   naturel.** Ce point est bloquant.

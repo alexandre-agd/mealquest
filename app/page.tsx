@@ -4,6 +4,12 @@ import { getCurrentDictionary } from "@/lib/i18n/server";
 import { getCurrentHousehold, getCurrentMember } from "@/lib/household/queries";
 import { interpolate } from "@/lib/i18n";
 import { Card } from "@/components/ui";
+import { loadPlannedSlots } from "@/lib/cards/planning";
+import {
+  addDays,
+  currentWeekStart,
+  todayInHouseholdTimezone,
+} from "@/lib/week/dates";
 
 export default async function Home() {
   const household = await getCurrentHousehold();
@@ -11,8 +17,21 @@ export default async function Home() {
   // Compte connecté mais sans foyer : on l'envoie configurer le sien.
   if (!household) redirect("/bienvenue");
 
-  const { t } = await getCurrentDictionary();
+  const { locale, t } = await getCurrentDictionary();
   const member = await getCurrentMember();
+
+  // A5.16 : « on mange quoi ce soir ? » doit se lire sans navigation.
+  // On regarde aussi la semaine suivante, car un dimanche soir le bento du
+  // lendemain appartient déjà à la semaine d'après.
+  const today = todayInHouseholdTimezone();
+  const tomorrow = addDays(today, 1);
+  const slots = [
+    ...(await loadPlannedSlots(currentWeekStart())),
+    ...(await loadPlannedSlots(addDays(currentWeekStart(), 7))),
+  ];
+  const tonight = slots.find((s) => s.date === today && s.slot === "soir");
+  const tomorrowLunch = slots.find((s) => s.date === tomorrow && s.slot === "midi");
+  const ja = locale === "ja";
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 px-6 py-8">
@@ -34,6 +53,57 @@ export default async function Home() {
           {t.nav.settings}
         </Link>
       </header>
+
+      {/* La question du quotidien, en tête d'écran (parcours C1) */}
+      <Card className="flex flex-col gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-wide text-muted">{t.home.tonight}</p>
+          {tonight ? (
+            <>
+              <p className="mt-0.5 text-lg font-medium">
+                {tonight.neutral
+                  ? t.booster.neutral[tonight.neutral as "restaurant"]
+                  : ja
+                    ? tonight.title_ja
+                    : tonight.title_fr}
+              </p>
+              {tonight.cardId ? (
+                <Link
+                  href={`/recette/${tonight.id}`}
+                  className="text-sm font-medium text-accent underline underline-offset-4"
+                >
+                  {t.home.see_recipe}
+                </Link>
+              ) : null}
+            </>
+          ) : (
+            <p className="mt-0.5 text-sm text-muted">{t.home.nothing_planned}</p>
+          )}
+        </div>
+
+        {tomorrowLunch ? (
+          <div className="border-t border-border pt-3">
+            <p className="text-xs uppercase tracking-wide text-muted">
+              {t.home.tomorrow_lunch}
+            </p>
+            <p className="mt-0.5 text-base">
+              {tomorrowLunch.neutral
+                ? t.booster.neutral[tomorrowLunch.neutral as "restaurant"]
+                : ja
+                  ? tomorrowLunch.title_ja
+                  : tomorrowLunch.title_fr}
+            </p>
+            {tomorrowLunch.cardId ? (
+              <Link
+                href={`/recette/${tomorrowLunch.id}`}
+                className="text-sm font-medium text-accent underline underline-offset-4"
+              >
+                {t.home.see_recipe}
+              </Link>
+            ) : null}
+          </div>
+        ) : null}
+      </Card>
 
       <Card className="flex items-baseline justify-between">
         <div>
