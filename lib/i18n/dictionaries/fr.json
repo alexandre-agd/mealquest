@@ -299,7 +299,12 @@
     },
     "verso_of": "Verso de {title}",
     "minutes": "{count} min",
-    "portions": "{count} portions"
+    "portions": "{count} portions",
+    "preview": "Voir la recette",
+    "ingredients": "Ingrédients",
+    "steps": "Préparation",
+    "budget_scaled": "Ajusté à {meals} repas prévus cette semaine. Un repère commun : un plat généreux un soir se rattrape un autre.",
+    "assigned_count": "{count} créneaux remplis sur le semainier."
   },
   "cuisines": {
     "japonaise": "Japonaise",

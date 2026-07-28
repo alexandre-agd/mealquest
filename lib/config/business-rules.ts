@@ -16,6 +16,18 @@ export const POINTS_BUDGET_BASE = {
   gourmand: 36,
 } as const;
 
+// RG-08 bis — Nombre de repas que représente une semaine « pleine ».
+//
+// Les budgets de POINTS_BUDGET_BASE sont exprimés pour une semaine complète,
+// soit sept dîners. Quand la semaine réelle en compte moins, l'enveloppe est
+// réduite dans la même proportion : 30 points pour quatre dîners ne serait
+// plus un repère, juste un plafond hors d'atteinte.
+//
+// L'enveloppe reste hebdomadaire et commune : c'est ce qui permet de se
+// rattraper un autre jour après un repas généreux. On ajuste sa taille, on
+// ne la découpe pas en budgets par repas.
+export const FULL_WEEK_MEALS = 7;
+
 // RG-37 : nombre de cartes proposées par le booster.
 export const BOOSTER_CARDS_PER_NEED = 2;
 export const BOOSTER_MAX_CARDS = 20;

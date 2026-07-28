@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  computeAdjustedPointsBudget,
   computePointsBudget,
   effectivePointsBudget,
 } from "@/lib/household/budget";
@@ -53,5 +54,46 @@ describe("surcharge manuelle du budget (docs/04)", () => {
     expect(effectivePointsBudget("equilibre", 2, 0, null)).toBe(30);
     expect(effectivePointsBudget("equilibre", 2, 0, undefined)).toBe(30);
     expect(effectivePointsBudget("equilibre", 2, 0, 0)).toBe(30);
+  });
+});
+
+describe("budget ajusté au nombre de repas prévus", () => {
+  it("rend le budget plein pour une semaine complète", () => {
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 7)).toBe(30);
+  });
+
+  it("réduit proportionnellement quand on cuisine moins de soirs", () => {
+    // 30 × 4/7 = 17,1 -> 18
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 4)).toBe(18);
+    // 30 × 5/7 = 21,4 -> 22
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 5)).toBe(22);
+    // 30 × 2/7 = 8,6 -> 9
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 2)).toBe(9);
+  });
+
+  it("dépasse le budget plein si la semaine compte plus de sept repas", () => {
+    // 5 dîners + 3 midis orphelins : le foyer prépare plus que d'habitude.
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 8)).toBe(35);
+  });
+
+  it("suit l'objectif du foyer", () => {
+    expect(computeAdjustedPointsBudget("leger", 2, 0, 4)).toBe(14);
+    expect(computeAdjustedPointsBudget("gourmand", 2, 0, 4)).toBe(21);
+  });
+
+  it("tient compte du coefficient enfant", () => {
+    // 39 × 4/7 = 22,3 -> 23
+    expect(computeAdjustedPointsBudget("equilibre", 2, 1, 4)).toBe(23);
+  });
+
+  it("rend 0 quand aucun repas n'est prévu", () => {
+    expect(computeAdjustedPointsBudget("equilibre", 2, 0, 0)).toBe(0);
+  });
+
+  it("reste une enveloppe commune, pas un plafond par repas", () => {
+    // Un seul repas généreux peut consommer une grande part du budget :
+    // c'est voulu, on se rattrape sur les autres soirs.
+    const budget = computeAdjustedPointsBudget("equilibre", 2, 0, 4);
+    expect(budget).toBeGreaterThan(5);
   });
 });

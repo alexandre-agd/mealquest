@@ -299,7 +299,12 @@
     },
     "verso_of": "{title} のお弁当",
     "minutes": "{count} 分",
-    "portions": "{count} 人分"
+    "portions": "{count} 人分",
+    "preview": "レシピを見る",
+    "ingredients": "材料",
+    "steps": "作り方",
+    "budget_scaled": "今週の {meals} 食に合わせた目安です。1週間ぜんたいの目安なので、ある日しっかり食べたぶんは別の日で調整できます。",
+    "assigned_count": "献立表に {count} 件を登録しました。"
   },
   "cuisines": {
     "japonaise": "和食",

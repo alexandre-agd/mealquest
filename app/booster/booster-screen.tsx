@@ -6,6 +6,7 @@ import { Button, Card as Panel, ErrorText, SectionTitle } from "@/components/ui"
 import { interpolate, lookup, type Dictionary, type Locale } from "@/lib/i18n";
 import type { Card } from "@/lib/cards/queries";
 import { runBooster, type BoosterResult } from "./actions";
+import { assignCards, type PlanResult } from "./plan-actions";
 
 export function BoosterScreen({
   t,
@@ -14,6 +15,7 @@ export function BoosterScreen({
   cards,
   dinnersNeeded,
   pointsBudget,
+  mealsPlanned,
   hasKey,
 }: {
   t: Dictionary;
@@ -22,12 +24,17 @@ export function BoosterScreen({
   cards: Card[];
   dinnersNeeded: number;
   pointsBudget: number;
+  mealsPlanned: number;
   hasKey: boolean;
 }) {
   const [pending, startTransition] = useTransition();
   const [result, setResult] = useState<BoosterResult | null>(null);
   // Sélection locale : garder ou passer ne touche la base qu'au placement.
   const [kept, setKept] = useState<Set<string>>(new Set());
+  // Carte ouverte en prévisualisation, avant de décider de la garder.
+  const [preview, setPreview] = useState<Card | null>(null);
+  const [saving, startSaving] = useTransition();
+  const [planResult, setPlanResult] = useState<PlanResult | null>(null);
 
   const ja = locale === "ja";
   const title = (card: Card) => (ja ? card.title_ja : card.title_fr);
@@ -36,6 +43,15 @@ export function BoosterScreen({
   const usedPoints = cards
     .filter((card) => kept.has(card.id))
     .reduce((total, card) => total + card.points + (card.verso?.points ?? 0), 0);
+
+  function save() {
+    setPlanResult(null);
+    startSaving(async () => {
+      const outcome = await assignCards(weekStart, [...kept]);
+      setPlanResult(outcome);
+      if (outcome.ok) setKept(new Set());
+    });
+  }
 
   function toggle(id: string) {
     setKept((previous) => {
@@ -180,6 +196,15 @@ export function BoosterScreen({
                         {card.verso.points} pt
                       </p>
                     ) : null}
+
+                    {/* On doit pouvoir lire la recette avant de trancher (B4) */}
+                    <button
+                      type="button"
+                      onClick={() => setPreview(card)}
+                      className="self-start text-xs font-medium text-accent underline underline-offset-4"
+                    >
+                      {t.booster.preview}
+                    </button>
                   </Panel>
                 </li>
               );
@@ -196,11 +221,144 @@ export function BoosterScreen({
                   budget: pointsBudget,
                 })}
               </p>
-              <p className="mt-0.5 text-xs text-muted">{t.household.budget_explain}</p>
+              <p className="mt-0.5 text-xs text-muted">
+                {interpolate(t.booster.budget_scaled, { meals: mealsPlanned })}
+              </p>
+
+              <Button
+                className="mt-3 w-full"
+                onClick={save}
+                disabled={saving || kept.size === 0}
+              >
+                {saving ? t.common.loading : t.booster.assign}
+              </Button>
+              {planResult?.ok ? (
+                <p className="mt-2 text-center text-xs text-accent">
+                  {interpolate(t.booster.assigned_count, {
+                    count: planResult.placed ?? 0,
+                  })}
+                </p>
+              ) : null}
+              {planResult?.error ? (
+                <ErrorText>{lookup(t, planResult.error)}</ErrorText>
+              ) : null}
             </div>
           </div>
         </>
       )}
+
+      {preview ? (
+        <RecipePreview t={t} locale={locale} card={preview} onClose={() => setPreview(null)} />
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Recette complète (RG-53).
+ *
+ * Panneau plein écran plutôt que modale flottante : on le lit debout dans la
+ * cuisine, et les actions doivent rester atteignables au pouce.
+ */
+function RecipePreview({
+  t,
+  locale,
+  card,
+  onClose,
+}: {
+  t: Dictionary;
+  locale: Locale;
+  card: Card;
+  onClose: () => void;
+}) {
+  const ja = locale === "ja";
+  const steps = ja ? card.steps_ja : card.steps_fr;
+  const main = card.ingredients.filter((i) => !i.forVerso);
+  const versoIngredients = card.ingredients.filter((i) => i.forVerso);
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-background">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-5 px-5 py-6">
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-xl font-semibold">{ja ? card.title_ja : card.title_fr}</h2>
+          <Button
+            variant="secondary"
+            className="!min-h-10 shrink-0 !px-4 text-sm"
+            onClick={onClose}
+          >
+            {t.common.back}
+          </Button>
+        </div>
+
+        <p className="text-sm text-muted">
+          {t.cuisines[card.cuisine as "japonaise"]} · {card.points} pt ·{" "}
+          {"★".repeat(card.stars)} ·{" "}
+          {interpolate(t.booster.minutes, { count: card.prepMinutes })} ·{" "}
+          {interpolate(t.booster.portions, { count: card.referencePortions })}
+        </p>
+
+        <p className="text-sm">{ja ? card.description_ja : card.description_fr}</p>
+
+        <section className="flex flex-col gap-2">
+          <SectionTitle>{t.booster.ingredients}</SectionTitle>
+          <ul className="flex flex-col gap-1 text-sm">
+            {main.map((item, index) => (
+              <li key={index} className="flex justify-between gap-3">
+                <span>{ja ? item.name_ja : item.name_fr}</span>
+                <span className="shrink-0 text-muted tabular-nums">
+                  {item.quantity} {item.unit}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="flex flex-col gap-2">
+          <SectionTitle>{t.booster.steps}</SectionTitle>
+          <ol className="flex flex-col gap-3 text-sm">
+            {steps.map((step, index) => (
+              <li key={index} className="flex gap-3">
+                <span className="shrink-0 font-medium text-accent tabular-nums">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {card.verso ? (
+          <section className="flex flex-col gap-2 border-t border-border pt-4">
+            <SectionTitle>
+              {ja ? card.verso.title_ja : card.verso.title_fr} · {card.verso.points} pt
+            </SectionTitle>
+            {versoIngredients.length > 0 ? (
+              <ul className="flex flex-col gap-1 text-sm">
+                {versoIngredients.map((item, index) => (
+                  <li key={index} className="flex justify-between gap-3">
+                    <span>{ja ? item.name_ja : item.name_fr}</span>
+                    <span className="shrink-0 text-muted tabular-nums">
+                      {item.quantity} {item.unit}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            <ol className="flex flex-col gap-3 text-sm">
+              {(ja ? card.verso.steps_ja : card.verso.steps_fr).map((step, index) => (
+                <li key={index} className="flex gap-3">
+                  <span className="shrink-0 font-medium text-accent tabular-nums">
+                    {index + 1}
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
+
+        <div className="safe-bottom" />
+      </div>
     </div>
   );
 }
