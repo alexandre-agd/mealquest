@@ -199,7 +199,8 @@
     "settings": "Paramètres",
     "week": "Semainier",
     "fridge": "Frigo",
-    "booster": "Booster"
+    "booster": "Booster",
+    "planning": "Semaine planifiée"
   },
   "home": {
     "greeting": "Bonjour {name}",
@@ -207,7 +208,8 @@
     "household_of": "Foyer : {name}",
     "week_hint": "Qui mange quoi, et quand.",
     "fridge_hint": "Ce qu'il reste dans le frigo.",
-    "booster_hint": "Générer les recettes de la semaine."
+    "booster_hint": "Générer les recettes de la semaine.",
+    "planning_hint": "Ce qui est posé sur vos créneaux."
   },
   "inventory": {
     "title": "Frigo",
@@ -318,5 +320,12 @@
     "americaine": "Américaine",
     "mediterraneenne": "Méditerranéenne",
     "autre": "Autre"
+  },
+  "planning": {
+    "title": "Semaine planifiée",
+    "verso": "Bento",
+    "to_fill": "À remplir",
+    "no_need": "Rien à prévoir",
+    "empty_needs": "{count} créneaux ont un besoin mais restent vides."
   }
 }

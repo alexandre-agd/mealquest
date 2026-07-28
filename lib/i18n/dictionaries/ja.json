@@ -199,7 +199,8 @@
     "settings": "設定",
     "week": "献立表",
     "fridge": "冷蔵庫",
-    "booster": "ブースター"
+    "booster": "ブースター",
+    "planning": "今週の献立"
   },
   "home": {
     "greeting": "こんにちは、{name}さん",
@@ -207,7 +208,8 @@
     "household_of": "家族：{name}",
     "week_hint": "だれが、いつ、家で食べるかを入力します。",
     "fridge_hint": "冷蔵庫に残っているもの。",
-    "booster_hint": "今週のレシピを生成します。"
+    "booster_hint": "今週のレシピを生成します。",
+    "planning_hint": "各枠に入っている料理です。"
   },
   "inventory": {
     "title": "冷蔵庫",
@@ -318,5 +320,12 @@
     "americaine": "アメリカ料理",
     "mediterraneenne": "地中海料理",
     "autre": "その他"
+  },
+  "planning": {
+    "title": "今週の献立",
+    "verso": "お弁当",
+    "to_fill": "未定",
+    "no_need": "用意なし",
+    "empty_needs": "食事が必要なのに未定の枠が {count} 件あります。"
   }
 }
